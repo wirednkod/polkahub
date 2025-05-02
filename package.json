@@ -2,6 +2,7 @@
   "name": "@polkadot-api/react-components",
   "version": "0.1.0",
   "type": "module",
+  "private": false,
   "scripts": {
     "build": "tsc -b && vite build",
     "lint": "eslint ."
