@@ -3,11 +3,11 @@ import { PropsWithChildren, ReactNode, useEffect, useState } from "react";
 export const CopyText: React.FC<
   PropsWithChildren<{
     text: string;
-    copiedContent: ReactNode;
+    copiedIndicator: ReactNode;
     disabled?: boolean;
     className?: string;
   }>
-> = ({ text, className, children, copiedContent, disabled }) => {
+> = ({ text, className, children, copiedIndicator, disabled }) => {
   const [copied, setCopied] = useState(false);
   const copy = async (evt: React.MouseEvent) => {
     if (disabled) return;
@@ -31,7 +31,7 @@ export const CopyText: React.FC<
       onClick={copy}
       tabIndex={-1}
     >
-      {copied ? copiedContent : children}
+      {copied ? copiedIndicator : children}
     </button>
   );
 };
