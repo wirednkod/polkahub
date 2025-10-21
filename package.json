@@ -39,6 +39,8 @@
   "dependencies": {
     "@noble/hashes": "^2.0.1",
     "@polkadot-api/pjs-signer": "^0.6.16",
+    "@polkadot-api/signers-common": "^0.1.17",
+    "@polkadot-api/substrate-bindings": "^0.16.4",
     "@react-rxjs/core": "^0.10.8",
     "@react-rxjs/utils": "^0.9.7",
     "@reown/appkit": "^1.8.11",

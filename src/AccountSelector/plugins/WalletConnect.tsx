@@ -59,7 +59,7 @@ export interface WalletConnectPlugin extends Plugin<WalletConnectAccount> {
 
 export const walletConnectPlugin = (
   projectId: string,
-  opts: Partial<{
+  opts?: Partial<{
     persist: PersistenceProvider;
   }>
 ): WalletConnectPlugin => {
@@ -236,8 +236,6 @@ export const walletConnectPlugin = (
       address,
       async (transactionPayload) => {
         const provider = await firstValueFrom(provider$);
-
-        console.log("Topic to check chainId below", session.topic);
 
         return provider.client.request({
           topic: session.topic,
