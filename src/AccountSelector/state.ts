@@ -1,7 +1,12 @@
 import { state } from "@react-rxjs/core";
-import { combineKeys, createKeyedSignal } from "@react-rxjs/utils";
+import {
+  combineKeys,
+  createKeyedSignal,
+  createSignal,
+  mergeWithKey,
+} from "@react-rxjs/utils";
 import type { PolkadotSigner, SS58String } from "polkadot-api";
-import { map } from "rxjs";
+import { map, scan } from "rxjs";
 import type { Plugin } from "./plugins";
 
 export interface Account {
@@ -10,6 +15,22 @@ export interface Account {
   signer?: PolkadotSigner;
   name?: string;
 }
+
+const [addInstance$, addInstance] = createSignal<string>();
+const [removeInstance$, removeInstance] = createSignal<string>();
+export { addInstance, removeInstance };
+export const contextInstances$ = state(
+  mergeWithKey({ addInstance$, removeInstance$ }).pipe(
+    scan((acc: Record<string, number>, v) => {
+      acc[v.payload] =
+        (acc[v.payload] ?? 0) + (v.type === "addInstance$" ? 1 : -1);
+      return acc;
+    }, {}),
+    map((v) => Object.keys(v))
+  ),
+  []
+);
+contextInstances$.subscribe();
 
 const [pluginsChange$, changePlugins] = createKeyedSignal<string, Plugin[]>();
 export const setPlugins = (id: string, plugins: Plugin[]) => {

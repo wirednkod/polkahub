@@ -1,0 +1,93 @@
+import { getProxySigner } from "@polkadot-api/meta-signers";
+import { PolkadotSigner, SS58String } from "polkadot-api";
+import { BehaviorSubject, combineLatest, switchMap } from "rxjs";
+import { Account } from "../state";
+import {
+  localStorageProvider,
+  persistedState,
+  PersistenceProvider,
+} from "./persist";
+import { Plugin, SerializableAccount } from "./plugin";
+
+export interface ProxyInfo {
+  real: SS58String;
+  type?: {
+    type: string;
+    value?: unknown;
+  };
+  parentSigner: SerializableAccount;
+}
+
+export interface ProxyAccount extends Account {
+  provider: "proxy";
+  info: ProxyInfo;
+}
+
+export interface ProxyPlugin extends Plugin<ProxyAccount> {
+  id: "proxy";
+  setProxies: (proxies: ProxyInfo[]) => void;
+}
+
+export const proxyPlugin = (
+  opts?: Partial<{
+    persist: PersistenceProvider;
+  }>
+): ProxyPlugin => {
+  const { persist } = {
+    persist: localStorageProvider("proxies"),
+    ...opts,
+  };
+
+  const [persistedAccounts$, setPersistedAccounts] = persistedState(
+    persist,
+    [] as ProxyInfo[]
+  );
+  const plugins$ = new BehaviorSubject<Plugin[]>([]);
+
+  const getAccount = (
+    info: ProxyInfo,
+    parentSigner: PolkadotSigner
+  ): ProxyAccount => ({
+    provider: "proxy",
+    address: info.real,
+    signer: getProxySigner(info, parentSigner),
+    info,
+  });
+
+  const proxyInfoToAccount = async (info: ProxyInfo) => {
+    const plugins = plugins$.getValue();
+    const plugin = plugins.find((p) => info.parentSigner?.provider === p.id);
+    if (!plugin) return null;
+    const parentSigner = await plugin.deserialize(info.parentSigner);
+    if (!parentSigner?.signer) return null;
+    return getAccount(info, parentSigner.signer);
+  };
+
+  const accounts$ = combineLatest([persistedAccounts$, plugins$]).pipe(
+    switchMap(async ([accounts]) => ({
+      multisig: (await Promise.all(accounts.map(proxyInfoToAccount))).filter(
+        (v) => v !== null
+      ),
+    }))
+  );
+
+  return {
+    id: "proxy",
+    deserialize: (account) => {
+      const extra = account.extra as ProxyInfo;
+      return proxyInfoToAccount(extra);
+    },
+    serialize: ({ address, info, provider }) => ({
+      address,
+      provider,
+      extra: info,
+    }),
+    eq: (a, b) =>
+      a.address === b.address &&
+      a.info.parentSigner?.address === b.info.parentSigner?.address,
+    accounts$,
+    receivePlugins: (plugins) => plugins$.next(plugins),
+    subscription$: accounts$,
+    setProxies: setPersistedAccounts,
+  };
+};

@@ -1,6 +1,6 @@
 import { ComponentProps, ComponentType, forwardRef } from "react";
 import { PolkadotIdenticon } from "../PolkadotIdenticon";
-import { useAccountSelectorContext } from "./context";
+import { useSelectedAccount } from "./plugins";
 import { getPublicKey, sliceMiddleAddr } from "./util";
 
 export const Trigger = forwardRef<
@@ -15,7 +15,7 @@ export const Trigger = forwardRef<
     }>;
   }
 >(({ components, ...props }, ref) => {
-  const { selectedAccount } = useAccountSelectorContext();
+  const [selectedAccount] = useSelectedAccount();
   const { Button } = {
     Button: DefaultButton,
     ...components,

@@ -10,9 +10,15 @@ import {
   useEffect,
   useId,
 } from "react";
-import { Plugin } from "./plugins";
-import { Account, setPlugins, subscription$ } from "./state";
 import { EMPTY, merge } from "rxjs";
+import { Plugin } from "./plugins";
+import {
+  Account,
+  addInstance,
+  removeInstance,
+  setPlugins,
+  subscription$,
+} from "./state";
 
 export const ModalContext = createContext<{
   setContent: (element: ReactElement | null) => void;
@@ -53,7 +59,7 @@ export const AccountSelectorProvider: FC<ProviderProps> = ({
 }) => {
   const id = useId();
 
-  // TODO look performance implications
+  // TODO look performance implications of this double-render, if stuff unmounts and remounts or if it's properly reused
   return (
     <Subscribe
       source$={subscription$(id)}
@@ -88,8 +94,12 @@ const InnerAccountSelectorProvider: FC<
   }
 > = ({ id, children, plugins, getIdentity = async () => null }) => {
   useEffect(() => {
+    addInstance(id);
     const sub = subscription$(id).subscribe();
-    return () => sub.unsubscribe();
+    return () => {
+      removeInstance(id);
+      sub.unsubscribe();
+    };
   }, [id]);
 
   useEffect(() => {
