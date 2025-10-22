@@ -150,7 +150,6 @@ export const polkadotVaultPlugin = (
 
   return {
     id: "polkadot-vault",
-    serialize: ({ provider, address, name }) => ({ provider, address, name }),
     deserialize: (account) =>
       firstValueFrom(
         vaultAccounts$.pipe(
@@ -163,7 +162,6 @@ export const polkadotVaultPlugin = (
           )
         )
       ),
-    eq: (a, b) => a.address === b.address,
     accounts$,
     activeTx$,
     cancelTx,

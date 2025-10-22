@@ -299,7 +299,6 @@ export const walletConnectPlugin = (
 
   return {
     id: "walletconnect",
-    serialize: ({ provider, address, name }) => ({ provider, address, name }),
     deserialize: (account) =>
       firstValueFrom(
         accounts$.pipe(
@@ -311,7 +310,6 @@ export const walletConnectPlugin = (
           )
         )
       ),
-    eq: (a, b) => a.address === b.address,
     accounts$,
     toggleWalletConnect,
     walletConnectStatus$,
