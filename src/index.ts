@@ -1,4 +1,4 @@
-export { PolkadotIdenticon } from "./PolkadotIdenticon";
 export { CopyText } from "./CopyText";
-export { useTokenInput } from "./tokenInput";
+export { PolkadotIdenticon } from "./PolkadotIdenticon";
 export * from "./tokenFormat";
+export { useTokenInput } from "./tokenInput";
