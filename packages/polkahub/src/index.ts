@@ -5,6 +5,14 @@ export * from "@polkahub/pjs-wallet";
 export * from "@polkahub/plugin";
 export * from "@polkahub/proxy";
 export * from "@polkahub/read-only";
-export * from "@polkahub/select-account";
+export {
+  type SelectedAccountPlugin,
+  createSelectedAccountPlugin,
+  selectedAccount$,
+  selectedAccountPlugin$,
+  useSelectedAccount,
+} from "@polkahub/select-account";
 export * from "@polkahub/vault";
 export * from "@polkahub/wallet-connect";
+
+export * from "./SelectAccountModal";

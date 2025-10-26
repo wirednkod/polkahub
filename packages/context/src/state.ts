@@ -1,9 +1,5 @@
-import type { Account, Plugin } from "@polkahub/plugin";
-import {
-  DefaultedStateObservable,
-  state,
-  StateObservable,
-} from "@react-rxjs/core";
+import type { Plugin } from "@polkahub/plugin";
+import { state } from "@react-rxjs/core";
 import {
   combineKeys,
   createKeyedSignal,
@@ -17,7 +13,7 @@ import { Identity } from "./context";
 const [addInstance$, addInstance] = createSignal<string>();
 const [removeInstance$, removeInstance] = createSignal<string>();
 export { addInstance, removeInstance };
-export const contextInstances$: DefaultedStateObservable<string[]> = state(
+export const contextInstances$ = state(
   mergeWithKey({ addInstance$, removeInstance$ }).pipe(
     scan((acc: Record<string, number>, v) => {
       acc[v.payload] =
@@ -35,12 +31,9 @@ export const setPlugins = (id: string, plugins: Plugin[]) => {
   changePlugins(id, plugins);
 };
 
-export const plugins$: (id: string) => StateObservable<Plugin<Account>[]> =
-  state((id: string) => pluginsChange$(id));
+export const plugins$ = state((id: string) => pluginsChange$(id));
 
-export const availableAccounts$: (
-  id: string
-) => StateObservable<Record<string, Account[]>> = state((id: string) =>
+export const availableAccounts$ = state((id: string) =>
   combineKeys(plugins$(id), (plugin) => plugin.accounts$).pipe(
     map((pluginMap) =>
       Object.fromEntries(
@@ -58,13 +51,11 @@ export const [identityProviderChange$, changeIdentityProvider] =
     string,
     (address: SS58String) => Promise<Identity | null>
   >();
-export const identityProvider$: (
-  id: string
-) => StateObservable<(address: SS58String) => Promise<Identity | null>> = state(
-  (id: string) => identityProviderChange$(id).pipe(distinctUntilChanged())
+export const identityProvider$ = state((id: string) =>
+  identityProviderChange$(id).pipe(distinctUntilChanged())
 );
 
-const subscription$: (id: string) => StateObservable<unknown> = state(
-  (id: string) => merge(availableAccounts$(id), identityProvider$(id))
+const subscription$ = state((id: string) =>
+  merge(availableAccounts$(id), identityProvider$(id))
 );
 combineKeys(contextInstances$, subscription$).subscribe();

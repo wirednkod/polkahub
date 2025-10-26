@@ -2,14 +2,14 @@ import { Account, Plugin } from "@polkahub/plugin";
 import type { SS58String } from "polkadot-api";
 import {
   createContext,
-  ReactElement,
+  ReactNode,
   useContext,
   useEffect,
   useState,
 } from "react";
 
 export const ModalContext = createContext<{
-  setContent: (element: ReactElement | null) => void;
+  setContent: (element: ReactNode) => void;
 } | null>(null);
 
 export interface Identity {
