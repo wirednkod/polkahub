@@ -65,7 +65,7 @@ export const SelectedAccountButton: ForwardRefExoticComponent<
         <div>{name}</div>
       ) : (
         <div className="text-sm text-foreground/60">
-          {sliceMiddleStr(selectedAccount.address, 6)}
+          {sliceMiddleStr(selectedAccount.address, 12)}
         </div>
       )}
     </Button>

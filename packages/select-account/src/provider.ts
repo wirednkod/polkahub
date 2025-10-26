@@ -1,3 +1,11 @@
+import { plugins$, usePolkaHubContext } from "@polkahub/context";
+import {
+  Account,
+  localStorageProvider,
+  PersistenceProvider,
+  Plugin,
+  SerializableAccount,
+} from "@polkahub/plugin";
 import { state, StateObservable, useStateObservable } from "@react-rxjs/core";
 import { createSignal } from "@react-rxjs/utils";
 import {
@@ -11,17 +19,10 @@ import {
   NEVER,
   of,
   switchMap,
+  take,
   takeUntil,
   timeout,
 } from "rxjs";
-import { plugins$, usePolkaHubContext } from "@polkahub/context";
-import {
-  localStorageProvider,
-  PersistenceProvider,
-  Account,
-  Plugin,
-  SerializableAccount,
-} from "@polkahub/plugin";
 
 export interface SelectedAccountPlugin extends Plugin {
   id: "selected-account";
@@ -51,9 +52,8 @@ export const createSelectedAccountPlugin = (
       map((plugins) =>
         plugins.find((plugin) => plugin.id === persisted.provider)
       ),
-      switchMap((plugin) =>
-        plugin ? Promise.resolve(plugin.deserialize(persisted)) : [null]
-      )
+      filter((r) => r != null),
+      switchMap((plugin) => Promise.resolve(plugin.deserialize(persisted)))
     );
   }).pipe(
     timeout({
@@ -62,7 +62,8 @@ export const createSelectedAccountPlugin = (
     catchError((ex) => {
       console.error(ex);
       return [null];
-    })
+    }),
+    take(1)
   );
 
   const selectedAccount$ = state(

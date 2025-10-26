@@ -35,6 +35,7 @@ import {
   switchMap,
   take,
   tap,
+  timeout,
   timer,
 } from "rxjs";
 
@@ -215,7 +216,11 @@ export const createPjsWalletProvider = (
                 .find((ext) => ext.extension.name === account.extra)
                 ?.accounts.find((acc) => acc.address === account.address) ??
               null
-          )
+          ),
+          filter((v) => v != null),
+          timeout({
+            first: 3000,
+          })
         )
       ),
     eq: (a, b) => a.address === b.address && a.extensionId === b.extensionId,

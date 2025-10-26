@@ -13,7 +13,9 @@ import { createSignal } from "@react-rxjs/utils";
 import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
 
 // For lazy-loading optimizations
-export const SelectAccountModalTrigger = <SelectedAccountButton loading />;
+export const SelectAccountModalTrigger: FC = () => (
+  <SelectedAccountButton loading />
+);
 
 const [openChange$, setOpen] = createSignal<boolean>();
 export const openSelectAccount = () => setOpen(true);
