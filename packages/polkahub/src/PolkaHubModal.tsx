@@ -13,18 +13,15 @@ import { createSignal } from "@react-rxjs/utils";
 import { FC, PropsWithChildren, ReactNode, useMemo, useState } from "react";
 
 // For lazy-loading optimizations
-export const SelectAccountModalTrigger: FC = () => (
-  <SelectedAccountButton loading />
-);
+export const PolkaHubModalTrigger: FC = () => <SelectedAccountButton loading />;
 
 const [openChange$, setOpen] = createSignal<boolean>();
 export const openSelectAccount = () => setOpen(true);
 const open$ = state(openChange$, false);
 
-export const SelectAccountModal: FC<PropsWithChildren> = ({ children }) => {
+export const PolkaHubModal: FC<PropsWithChildren> = ({ children }) => {
   const open = useStateObservable(open$);
 
-  // Experimenting a bit but... who says I can't do this?
   const [content, setContent] = useState<ReactNode | null>(null);
 
   const contextValue = useMemo(
@@ -51,7 +48,7 @@ export const SelectAccountModal: FC<PropsWithChildren> = ({ children }) => {
         </DialogHeader>
         <DialogBody>
           <ModalContext value={contextValue}>
-            {content ?? children}
+            {content ?? <div className="space-y-4">{children}</div>}
           </ModalContext>
         </DialogBody>
       </DialogContent>

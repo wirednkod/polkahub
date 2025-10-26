@@ -1,4 +1,4 @@
-import type { Plugin } from "@polkahub/plugin";
+import type { Account, Plugin } from "@polkahub/plugin";
 import { state } from "@react-rxjs/core";
 import {
   combineKeys,
@@ -34,13 +34,20 @@ export const setPlugins = (id: string, plugins: Plugin[]) => {
 export const plugins$ = state((id: string) => pluginsChange$(id));
 
 export const availableAccounts$ = state((id: string) =>
-  combineKeys(plugins$(id), (plugin) => plugin.accounts$).pipe(
-    map((pluginMap) =>
-      Object.fromEntries(
-        Array.from(pluginMap.entries()).map(([plugin, accounts]) => [
-          plugin.id,
-          accounts,
-        ])
+  combineKeys(
+    plugins$(id),
+    (plugin) =>
+      plugin.accountGroups$ ??
+      plugin.accounts$.pipe(map((accounts) => ({ [plugin.id]: accounts })))
+  ).pipe(
+    map((pluginMap) => Array.from(pluginMap.values())),
+    map((groups) =>
+      groups.reduce(
+        (acc: Record<string, Account[]>, v) => ({
+          ...acc,
+          ...v,
+        }),
+        {}
       )
     )
   )
