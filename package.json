@@ -4,10 +4,9 @@
   "scripts": {
     "build": "pnpm -r build"
   },
-  "dependencies": {},
-  "peerDependencies": {},
   "devDependencies": {
     "@eslint/js": "^9.38.0",
+    "@rollup/plugin-url": "^8.0.2",
     "@types/node": "^24.9.1",
     "eslint": "^9.38.0",
     "eslint-plugin-react-hooks": "^7.0.1",

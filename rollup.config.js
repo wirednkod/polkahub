@@ -1,6 +1,7 @@
 import dts from "rollup-plugin-dts";
 import esbuild from "rollup-plugin-esbuild";
 import postcss from "rollup-plugin-postcss";
+import url from "@rollup/plugin-url";
 
 const commonOptions = {
   input: "src/index.ts",
@@ -11,6 +12,9 @@ export default [
   {
     ...commonOptions,
     plugins: [
+      url({
+        include: ["**/*.webp", "**/*.png", "**/*.jpg"],
+      }),
       postcss({
         extract: true,
         inject: false,
@@ -25,12 +29,19 @@ export default [
         sourcemap: true,
         preserveModules: true,
         entryFileNames: "[name].js",
+        assetFileNames: "assets/[name]-[hash][extname]",
       },
     ],
   },
   {
     ...commonOptions,
-    plugins: [postcss(), dts()],
+    plugins: [
+      url({
+        include: ["**/*.webp", "**/*.png", "**/*.jpg"],
+      }),
+      postcss(),
+      dts(),
+    ],
     output: {
       file: `dist/src/index.d.ts`,
       format: "es",
