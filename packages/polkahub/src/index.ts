@@ -12,6 +12,7 @@ export {
   selectedAccountPlugin$,
   useSelectedAccount,
   SelectAccountField,
+  selectedAccountPluginId,
 } from "@polkahub/select-account";
 export * from "@polkahub/vault";
 export * from "@polkahub/wallet-connect";
