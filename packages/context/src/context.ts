@@ -5,6 +5,7 @@ import {
   ReactNode,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -23,10 +24,9 @@ export interface PolkaHubContext {
   id: string;
   plugins: Plugin[];
   getIdentity: (address: SS58String) => Promise<Identity | null>;
-  availableAccounts: Record<string, Account[]>;
+  getBalance: (address: SS58String) => Promise<string | null>;
 }
 export const PolkaHubContext = createContext<PolkaHubContext | null>(null);
-
 export const usePolkaHubContext = () => {
   const ctx = useContext(PolkaHubContext);
   if (!ctx) {
@@ -35,26 +35,56 @@ export const usePolkaHubContext = () => {
   return ctx;
 };
 
-export const useIdentity = (address: SS58String | null): Identity | null => {
-  const [[addrId, identity], setIdentity] = useState<
-    [SS58String | null, Identity | null]
-  >([address, null]);
-  const { getIdentity } = usePolkaHubContext();
+const usePromise = <K, T>(
+  key: K | null,
+  promiseFn: (key: K) => Promise<T | null>
+) => {
+  const [[storedKey, storedValue], setValue] = useState<[K | null, T | null]>([
+    key,
+    null,
+  ]);
 
   useEffect(() => {
-    if (!address) return;
+    if (key === null) return;
 
     let cancelled = false;
-    getIdentity(address).then((identity) => {
+    promiseFn(key).then((value) => {
       if (cancelled) return;
-      setIdentity([address, identity]);
+      setValue([key, value]);
     });
 
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [key, promiseFn]);
 
-  return addrId === address ? identity : null;
+  return key === storedKey ? storedValue : null;
+};
+
+export const useIdentity = (address: SS58String | null): Identity | null => {
+  const { getIdentity } = usePolkaHubContext();
+  return usePromise(address, getIdentity);
+};
+
+export const useBalance = (address: SS58String | null): string | null => {
+  const { getBalance } = usePolkaHubContext();
+  return usePromise(address, getBalance);
+};
+
+export const usePlugin = <T extends Plugin<any>>(id: string): T | undefined => {
+  const ctx = useContext(PolkaHubContext);
+  return useMemo(
+    () => ctx?.plugins.find((p) => p.id === id) as T | undefined,
+    [id, ctx]
+  );
+};
+
+export interface AvailableAccountsContext {
+  availableAccounts: Record<string, Account[]>;
+}
+export const AvailableAccountsContext =
+  createContext<AvailableAccountsContext | null>(null);
+export const useAvailableAccounts = () => {
+  const ctx = useContext(AvailableAccountsContext);
+  return ctx?.availableAccounts ?? {};
 };

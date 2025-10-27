@@ -1,5 +1,5 @@
 import { AccountDisplay } from "@polkadot-api/react-components";
-import { useIdentity, usePolkaHubContext } from "@polkahub/context";
+import { useAvailableAccounts, useIdentity } from "@polkahub/context";
 import {
   Button,
   cn,
@@ -29,10 +29,11 @@ const groupLabels: Record<string, string> = {
 export const SelectAccountField: FC<{
   className?: string;
 }> = ({ className }) => {
-  const [open, setOpen] = useState(false);
-  const ctx = usePolkaHubContext();
+  const availableAccounts = useAvailableAccounts();
   const [account, setAccount] = useSelectedAccount();
-  const groups = Object.entries(ctx.availableAccounts)
+  const [open, setOpen] = useState(false);
+
+  const groups = Object.entries(availableAccounts)
     .filter(([, accounts]) => accounts.length > 0)
     .map(([key, accounts]) => ({
       name: groupLabels[key] ?? key,

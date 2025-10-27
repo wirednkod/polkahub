@@ -20,6 +20,8 @@ import {
   switchMap,
 } from "rxjs";
 
+export const ledgerProviderId = "ledger";
+
 export interface LedgerAccountInfo {
   address: SS58String;
   deviceId: number;
@@ -132,7 +134,7 @@ export const createLedgerProvider = (
   };
 
   const toAccount = (info: LedgerAccountInfo): LedgerAccount => ({
-    provider: "ledger",
+    provider: ledgerProviderId,
     ...info,
     signer: createLedgerSigner(info),
   });
@@ -145,7 +147,7 @@ export const createLedgerProvider = (
   const accountEq = (a: LedgerAccountInfo, b: LedgerAccountInfo) =>
     a.deviceId === b.deviceId && a.index === b.index;
   return {
-    id: "ledger",
+    id: ledgerProviderId,
     deserialize: (acc) =>
       toAccount({
         address: acc.address,

@@ -1,9 +1,9 @@
 import { Plugin } from "@polkahub/plugin";
 import { state, useStateObservable } from "@react-rxjs/core";
 import type { SS58String } from "polkadot-api";
-import { FC, PropsWithChildren, useEffect, useId } from "react";
+import { FC, PropsWithChildren, useEffect, useId, useMemo } from "react";
 import { EMPTY, merge } from "rxjs";
-import { Identity, PolkaHubContext } from "./context";
+import { AvailableAccountsContext, Identity, PolkaHubContext } from "./context";
 import {
   addInstance,
   availableAccounts$,
@@ -18,14 +18,15 @@ const defaultedAvailableAccounts$ = state(
 );
 
 type ProviderProps = PropsWithChildren<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   plugins: Plugin<any>[];
   getIdentity?: (address: SS58String) => Promise<Identity | null>;
+  getBalance?: (address: SS58String) => Promise<string | null>;
 }>;
 export const PolkaHubProvider: FC<ProviderProps> = ({
   children,
   plugins,
   getIdentity = async () => null,
+  getBalance = async () => null,
 }) => {
   const id = useId();
   const availableAccounts = useStateObservable(defaultedAvailableAccounts$(id));
@@ -50,14 +51,21 @@ export const PolkaHubProvider: FC<ProviderProps> = ({
 
   return (
     <PolkaHubContext
-      value={{
-        id,
-        plugins,
-        getIdentity,
-        availableAccounts,
-      }}
+      value={useMemo(
+        () => ({
+          id,
+          plugins,
+          getIdentity,
+          getBalance,
+        }),
+        [id, plugins, getIdentity, getBalance]
+      )}
     >
-      {children}
+      <AvailableAccountsContext
+        value={useMemo(() => ({ availableAccounts }), [availableAccounts])}
+      >
+        {children}
+      </AvailableAccountsContext>
     </PolkaHubContext>
   );
 };

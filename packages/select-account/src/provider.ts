@@ -1,4 +1,4 @@
-import { plugins$, usePolkaHubContext } from "@polkahub/context";
+import { plugin$, usePlugin } from "@polkahub/context";
 import {
   Account,
   localStorageProvider,
@@ -24,6 +24,7 @@ import {
   timeout,
 } from "rxjs";
 
+export const selectedAccountPluginId = "selected-account";
 export interface SelectedAccountPlugin extends Plugin {
   id: "selected-account";
   selectedAccount$: StateObservable<Account | null>;
@@ -36,7 +37,7 @@ export const createSelectedAccountPlugin = (
   }>
 ): SelectedAccountPlugin => {
   const { persist } = {
-    persist: localStorageProvider("selected-account"),
+    persist: localStorageProvider(selectedAccountPluginId),
     ...opts,
   };
 
@@ -99,7 +100,7 @@ export const createSelectedAccountPlugin = (
   );
 
   return {
-    id: "selected-account",
+    id: selectedAccountPluginId,
     deserialize: () => null,
     accounts$: of([]),
     receivePlugins(plugins) {
@@ -125,25 +126,21 @@ const deselectWhenRemoved$ = (value: Account, plugin: Plugin) =>
   );
 
 export const useSelectedAccount = () => {
-  const ctx = usePolkaHubContext();
-  const plugin = ctx.plugins.find(
-    (plugin) => plugin.id === "selected-account"
-  ) as SelectedAccountPlugin | undefined;
+  const plugin = usePlugin<SelectedAccountPlugin>(selectedAccountPluginId);
   if (!plugin) throw new Error("Plugin SelectedAccount not found");
   const selectedAccount = useStateObservable(plugin.selectedAccount$);
 
   return [selectedAccount, plugin.setAccount] as const;
 };
 
+export const useSetSelectedAccount = () => {
+  const plugin = usePlugin<SelectedAccountPlugin>(selectedAccountPluginId);
+  return plugin?.setAccount ?? null;
+};
+
 export const selectedAccountPlugin$ = (id: string) =>
-  plugins$(id).pipe(
-    map(
-      (plugins) =>
-        plugins.find((plugin) => plugin.id === "select-account") as
-          | SelectedAccountPlugin
-          | undefined
-    )
-  );
+  plugin$<SelectedAccountPlugin>(id, selectedAccountPluginId);
+
 export const selectedAccount$ = (id: string) =>
   selectedAccountPlugin$(id).pipe(
     switchMap((v) => v?.selectedAccount$ ?? [null])

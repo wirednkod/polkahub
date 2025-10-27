@@ -10,6 +10,7 @@ import { AccountId, SS58String } from "polkadot-api";
 import { getPolkadotSigner } from "polkadot-api/signer";
 import { map } from "rxjs";
 
+export const readOnlyProviderId = "readonly";
 export interface ReadOnlyProvider extends Plugin {
   id: "readonly";
   accounts$: DefaultedStateObservable<Account[]>;
@@ -37,7 +38,7 @@ export const createReadOnlyProvider = (
   );
 
   const getAccount = (address: SS58String): Account => ({
-    provider: "readonly",
+    provider: readOnlyProviderId,
     address,
     signer: fakeSigner ? createFakeSigner(address) : undefined,
   });
@@ -48,7 +49,7 @@ export const createReadOnlyProvider = (
   );
 
   return {
-    id: "readonly",
+    id: readOnlyProviderId,
     deserialize: (acc) => getAccount(acc.address),
     accounts$,
     setAccounts: setPersistedAccounts,

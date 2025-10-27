@@ -27,9 +27,13 @@
   "dependencies": {
     "@ledgerhq/hw-transport": "^6.31.12",
     "@polkadot-api/ledger-signer": "^0.2.12",
+    "@polkahub/context": "workspace:*",
     "@polkahub/plugin": "workspace:*",
+    "@polkahub/select-account": "workspace:*",
+    "@polkahub/ui-components": "workspace:*",
     "@react-rxjs/core": "^0.10.8",
     "@react-rxjs/utils": "^0.9.7",
+    "lucide-react": "^0.548.0",
     "polkadot-api": "^1.20.0",
     "rxjs": "^7.8.2"
   },

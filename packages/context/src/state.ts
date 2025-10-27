@@ -32,6 +32,11 @@ export const setPlugins = (id: string, plugins: Plugin[]) => {
 };
 
 export const plugins$ = state((id: string) => pluginsChange$(id));
+export const plugin$ = <T extends Plugin<any>>(id: string, provider: string) =>
+  plugins$(id).pipe(
+    map((plugins) => plugins.find((p) => p.id === provider) as T | undefined),
+    distinctUntilChanged()
+  );
 
 export const availableAccounts$ = state((id: string) =>
   combineKeys(
