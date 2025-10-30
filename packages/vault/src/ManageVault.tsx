@@ -16,11 +16,15 @@ import { QrCamera } from "./QrCamera";
 
 export const ManageVault: FC = () => {
   const { setContent } = useContext(ModalContext)!;
+  const polkadotVaultProvider = usePlugin<PolkadotVaultProvider>(
+    polkadotVaultProviderId
+  );
 
   return (
     <SourceButton
       label="Vault"
       onClick={() => setContent(<VaultAccounts setContent={setContent} />)}
+      disabled={!polkadotVaultProvider}
     >
       <img src={vaultImg} alt="Vault" className="h-10 rounded" />
     </SourceButton>

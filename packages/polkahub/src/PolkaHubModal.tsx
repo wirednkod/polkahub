@@ -42,7 +42,15 @@ export const PolkaHubModal: FC<PropsWithChildren> = ({ children }) => {
       <DialogTrigger asChild>
         <SelectedAccountButton />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent
+        onInteractOutside={(evt) => {
+          if (
+            evt.target instanceof HTMLElement &&
+            evt.target.tagName === "WCM-MODAL"
+          )
+            evt.preventDefault();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>Connect</DialogTitle>
         </DialogHeader>

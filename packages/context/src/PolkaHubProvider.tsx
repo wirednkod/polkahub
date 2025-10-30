@@ -1,8 +1,24 @@
 import { Plugin } from "@polkahub/plugin";
 import { state, useStateObservable } from "@react-rxjs/core";
 import type { SS58String } from "polkadot-api";
-import { FC, PropsWithChildren, useEffect, useId, useMemo } from "react";
-import { EMPTY, merge } from "rxjs";
+import {
+  FC,
+  PropsWithChildren,
+  useEffect,
+  useId,
+  useMemo,
+  useState,
+} from "react";
+import {
+  catchError,
+  combineLatest,
+  EMPTY,
+  from,
+  ignoreElements,
+  merge,
+  startWith,
+  switchMap,
+} from "rxjs";
 import { AvailableAccountsContext, Identity, PolkaHubContext } from "./context";
 import {
   addInstance,
@@ -18,13 +34,13 @@ const defaultedAvailableAccounts$ = state(
 );
 
 type ProviderProps = PropsWithChildren<{
-  plugins: Plugin<any>[];
+  plugins: Array<Plugin<any> | Promise<Plugin<any>>>;
   getIdentity?: (address: SS58String) => Promise<Identity | null>;
   getBalance?: (address: SS58String) => Promise<string | null>;
 }>;
 export const PolkaHubProvider: FC<ProviderProps> = ({
   children,
-  plugins,
+  plugins: asyncPlugins,
   getIdentity = async () => null,
   getBalance = async () => null,
 }) => {
@@ -37,6 +53,27 @@ export const PolkaHubProvider: FC<ProviderProps> = ({
       removeInstance(id);
     };
   }, [id]);
+
+  const [plugins, setSyncPlugins] = useState(() =>
+    asyncPlugins.filter((v): v is Plugin<any> => !(v instanceof Promise))
+  );
+  useEffect(() => {
+    const sub = combineLatest(
+      asyncPlugins.map((p) =>
+        from(Promise.resolve(p)).pipe(
+          switchMap((plugin) =>
+            (plugin.subscription$ ?? EMPTY).pipe(
+              ignoreElements(),
+              catchError(() => []),
+              startWith(plugin)
+            )
+          )
+        )
+      )
+    ).subscribe((plugins) => setSyncPlugins(plugins));
+
+    return () => sub.unsubscribe();
+  }, [id, asyncPlugins]);
 
   useEffect(() => {
     const sub = merge(plugins.map((p) => p.subscription$ ?? EMPTY)).subscribe();

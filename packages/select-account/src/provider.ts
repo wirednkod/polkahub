@@ -125,12 +125,19 @@ const deselectWhenRemoved$ = (value: Account, plugin: Plugin) =>
     endWith(null)
   );
 
-export const useSelectedAccount = () => {
+const null$ = state(of(null), null);
+export const useSelectedAccount = (): [
+  Account | null,
+  (value: Account | null) => void
+] => {
   const plugin = usePlugin<SelectedAccountPlugin>(selectedAccountPluginId);
-  if (!plugin) throw new Error("Plugin SelectedAccount not found");
-  const selectedAccount = useStateObservable(plugin.selectedAccount$);
+  const selectedAccount = useStateObservable(plugin?.selectedAccount$ ?? null$);
+  if (!plugin) {
+    console.warn("Plugin SelectedAccount not found");
+    return [null, () => {}];
+  }
 
-  return [selectedAccount, plugin.setAccount] as const;
+  return [selectedAccount, plugin.setAccount];
 };
 
 export const useSetSelectedAccount = () => {

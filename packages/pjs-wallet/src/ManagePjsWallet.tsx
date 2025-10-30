@@ -1,14 +1,14 @@
 import { usePolkaHubContext } from "@polkahub/context";
-import { SourceButton } from "@polkahub/ui-components";
+import { cn, SourceButton } from "@polkahub/ui-components";
 import { state, useStateObservable } from "@react-rxjs/core";
 import { CircleQuestionMark } from "lucide-react";
 import { type FC } from "react";
 import { filter, switchMap } from "rxjs";
-import { pjsWalletPlugin$, PjsWalletProvider } from "./provider";
 import nova from "./assets/nova.webp";
 import pjs from "./assets/pjs.webp";
 import subwallet from "./assets/subwallet.webp";
 import talisman from "./assets/talisman.webp";
+import { pjsWalletPlugin$, PjsWalletProvider } from "./provider";
 
 const knownExtensions: Record<string, { name: string; logo: string }> = {
   "polkadot-js": {
@@ -49,14 +49,32 @@ export const ManagePjsWallets: FC = () => {
   return (
     <div>
       <h3>Manage Extensions</h3>
-      <ul className="flex gap-2 flex-wrap items-center justify-center">
-        {availableExtensions.map((id) => (
-          <li key={id}>
-            <ExtensionButton id={id} />
-          </li>
-        ))}
-      </ul>
+      <PjsWalletButtons />
     </div>
+  );
+};
+
+export const PjsWalletButtons: FC<{ className?: string }> = ({ className }) => {
+  const { id } = usePolkaHubContext();
+  const availableExtensions = useStateObservable(availableExtensions$(id)).sort(
+    (a, b) => (b in knownExtensions ? 1 : 0) - (a in knownExtensions ? 1 : 0)
+  );
+
+  if (!availableExtensions) return null;
+
+  return (
+    <ul
+      className={cn(
+        "flex gap-2 flex-wrap items-center justify-center",
+        className
+      )}
+    >
+      {availableExtensions.map((id) => (
+        <li key={id}>
+          <ExtensionButton id={id} />
+        </li>
+      ))}
+    </ul>
   );
 };
 

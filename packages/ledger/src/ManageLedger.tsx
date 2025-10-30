@@ -38,11 +38,13 @@ import {
 
 export const ManageLedger = () => {
   const { setContent } = useContext(ModalContext)!;
+  const ledgerProvider = usePlugin<LedgerProvider>(ledgerProviderId);
 
   return (
     <SourceButton
       label="Ledger"
       onClick={() => setContent(<LedgerAccounts setContent={setContent} />)}
+      disabled={!ledgerProvider}
     >
       <img src={ledgerImg} alt="Ledger" className="h-10 rounded" />
     </SourceButton>

@@ -14,6 +14,7 @@ import { ReadOnlyProvider, readOnlyProviderId } from "./provider";
 
 export const ManageReadOnly: FC = () => {
   const { setContent } = useContext(ModalContext)!;
+  const readOnlyProvider = usePlugin<ReadOnlyProvider>(readOnlyProviderId);
 
   return (
     <SourceButton
@@ -21,6 +22,7 @@ export const ManageReadOnly: FC = () => {
       onClick={() =>
         setContent(<ManageAddresses onClose={() => setContent(null)} />)
       }
+      disabled={!readOnlyProvider}
     >
       <div>
         <Eye className="size-10" />
@@ -34,13 +36,9 @@ const ManageAddresses: FC<{
 }> = ({ onClose }) => {
   const [addressInput, setAddressInput] = useState("");
   const availableAccounts = useAvailableAccounts();
-  const readOnlyProvider = usePlugin<ReadOnlyProvider>(readOnlyProviderId);
+  const readOnlyProvider = usePlugin<ReadOnlyProvider>(readOnlyProviderId)!;
   const readOnlyAccounts = availableAccounts[readOnlyProviderId] ?? [];
   const setAccount = useSetSelectedAccount();
-
-  if (!readOnlyProvider) {
-    throw new Error("Missing read-only provider");
-  }
 
   const isAddrValid = (() => {
     try {
