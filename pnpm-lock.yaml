@@ -158,160 +158,6 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0
 
-  packages/ledger:
-    dependencies:
-      '@ledgerhq/hw-transport':
-        specifier: ^6.31.12
-        version: 6.31.12
-      '@polkadot-api/ledger-signer':
-        specifier: ^0.2.13
-        version: 0.2.13(@ledgerhq/hw-transport@6.31.12)
-      '@polkahub/context':
-        specifier: workspace:*
-        version: link:../context
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@polkahub/select-account':
-        specifier: workspace:*
-        version: link:../select-account
-      '@polkahub/ui-components':
-        specifier: workspace:*
-        version: link:../ui-components
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      buffer:
-        specifier: ^6.0.3
-        version: 6.0.3
-      lucide-react:
-        specifier: ^0.552.0
-        version: 0.552.0(react@19.2.0)
-      polkadot-api:
-        specifier: ^1.20.1
-        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/mimir:
-    dependencies:
-      '@mimirdev/apps-inject':
-        specifier: ^3.2.0
-        version: 3.2.0
-      '@mimirdev/papi-signer':
-        specifier: ^3.1.0
-        version: 3.1.0(@polkadot-api/polkadot-signer@0.1.6)(@polkadot-api/substrate-bindings@0.16.5)(@polkadot-api/utils@0.2.0)
-      '@polkadot-api/polkadot-signer':
-        specifier: ^0.1.6
-        version: 0.1.6
-      '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
-        version: 0.16.5
-      '@polkadot-api/utils':
-        specifier: ^0.2.0
-        version: 0.2.0
-      '@polkahub/context':
-        specifier: workspace:*
-        version: link:../context
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@polkahub/ui-components':
-        specifier: workspace:*
-        version: link:../ui-components
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/multisig:
-    dependencies:
-      '@polkadot-api/meta-signers':
-        specifier: ^0.1.17
-        version: 0.1.17
-      '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
-        version: 0.16.5
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      polkadot-api:
-        specifier: ^1.20.1
-        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/pjs-wallet:
-    dependencies:
-      '@polkadot-api/pjs-signer':
-        specifier: ^0.6.17
-        version: 0.6.17
-      '@polkahub/context':
-        specifier: workspace:*
-        version: link:../context
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@polkahub/ui-components':
-        specifier: workspace:*
-        version: link:../ui-components
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      lucide-react:
-        specifier: ^0.552.0
-        version: 0.552.0(react@19.2.0)
-      polkadot-api:
-        specifier: ^1.20.1
-        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
   packages/plugin:
     dependencies:
       '@react-rxjs/utils':
@@ -334,28 +180,28 @@ importers:
         version: link:../context
       '@polkahub/ledger':
         specifier: workspace:*
-        version: link:../ledger
+        version: link:../../plugins/ledger
       '@polkahub/mimir':
         specifier: workspace:*
-        version: link:../mimir
+        version: link:../../plugins/mimir
       '@polkahub/multisig':
         specifier: workspace:*
-        version: link:../multisig
+        version: link:../../plugins/multisig
       '@polkahub/pjs-wallet':
         specifier: workspace:*
-        version: link:../pjs-wallet
+        version: link:../../plugins/pjs-wallet
       '@polkahub/plugin':
         specifier: workspace:*
         version: link:../plugin
       '@polkahub/proxy':
         specifier: workspace:*
-        version: link:../proxy
+        version: link:../../plugins/proxy
       '@polkahub/read-only':
         specifier: workspace:*
-        version: link:../read-only
+        version: link:../../plugins/read-only
       '@polkahub/select-account':
         specifier: workspace:*
-        version: link:../select-account
+        version: link:../../plugins/select-account
       '@polkahub/state':
         specifier: workspace:*
         version: link:../state
@@ -364,10 +210,10 @@ importers:
         version: link:../ui-components
       '@polkahub/vault':
         specifier: workspace:*
-        version: link:../vault
+        version: link:../../plugins/vault
       '@polkahub/wallet-connect':
         specifier: workspace:*
-        version: link:../wallet-connect
+        version: link:../../plugins/wallet-connect
       '@react-rxjs/core':
         specifier: ^0.10.8
         version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
@@ -377,114 +223,6 @@ importers:
       lucide-react:
         specifier: ^0.552.0
         version: 0.552.0(react@19.2.0)
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/proxy:
-    dependencies:
-      '@polkadot-api/meta-signers':
-        specifier: ^0.1.17
-        version: 0.1.17
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      polkadot-api:
-        specifier: ^1.20.1
-        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/read-only:
-    dependencies:
-      '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
-        version: 0.16.5
-      '@polkahub/context':
-        specifier: workspace:*
-        version: link:../context
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@polkahub/select-account':
-        specifier: workspace:*
-        version: link:../select-account
-      '@polkahub/ui-components':
-        specifier: workspace:*
-        version: link:../ui-components
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      lucide-react:
-        specifier: ^0.552.0
-        version: 0.552.0(react@19.2.0)
-      polkadot-api:
-        specifier: ^1.20.1
-        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
-    devDependencies:
-      '@types/react':
-        specifier: ^19.2.2
-        version: 19.2.2
-      react:
-        specifier: ^19.2.0
-        version: 19.2.0
-
-  packages/select-account:
-    dependencies:
-      '@polkadot-api/react-components':
-        specifier: ^0.3.2
-        version: 0.3.3(react-dom@19.2.0)(react@19.2.0)
-      '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
-        version: 0.16.5
-      '@polkahub/context':
-        specifier: workspace:*
-        version: link:../context
-      '@polkahub/plugin':
-        specifier: workspace:*
-        version: link:../plugin
-      '@polkahub/ui-components':
-        specifier: workspace:*
-        version: link:../ui-components
-      '@react-rxjs/core':
-        specifier: ^0.10.8
-        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
-      '@react-rxjs/utils':
-        specifier: ^0.9.7
-        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
-      '@rx-state/core':
-        specifier: ^0.1.4
-        version: 0.1.4(rxjs@7.8.2)
-      lucide-react:
-        specifier: ^0.552.0
-        version: 0.552.0(react@19.2.0)
-      rxjs:
-        specifier: ^7.8.2
-        version: 7.8.2
     devDependencies:
       '@types/react':
         specifier: ^19.2.2
@@ -581,26 +319,137 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0
 
-  packages/vault:
+  plugins/ledger:
     dependencies:
-      '@polkadot-api/signers-common':
-        specifier: ^0.1.18
-        version: 0.1.18
-      '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
-        version: 0.16.5
+      '@ledgerhq/hw-transport':
+        specifier: ^6.31.12
+        version: 6.31.12
+      '@polkadot-api/ledger-signer':
+        specifier: ^0.2.13
+        version: 0.2.13(@ledgerhq/hw-transport@6.31.12)
       '@polkahub/context':
         specifier: workspace:*
-        version: link:../context
+        version: link:../../packages/context
       '@polkahub/plugin':
         specifier: workspace:*
-        version: link:../plugin
+        version: link:../../packages/plugin
       '@polkahub/select-account':
         specifier: workspace:*
         version: link:../select-account
       '@polkahub/ui-components':
         specifier: workspace:*
-        version: link:../ui-components
+        version: link:../../packages/ui-components
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      buffer:
+        specifier: ^6.0.3
+        version: 6.0.3
+      lucide-react:
+        specifier: ^0.552.0
+        version: 0.552.0(react@19.2.0)
+      polkadot-api:
+        specifier: ^1.20.1
+        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/mimir:
+    dependencies:
+      '@mimirdev/apps-inject':
+        specifier: ^3.2.0
+        version: 3.2.0
+      '@mimirdev/papi-signer':
+        specifier: ^3.1.0
+        version: 3.1.0(@polkadot-api/polkadot-signer@0.1.6)(@polkadot-api/substrate-bindings@0.16.5)(@polkadot-api/utils@0.2.0)
+      '@polkadot-api/polkadot-signer':
+        specifier: ^0.1.6
+        version: 0.1.6
+      '@polkadot-api/substrate-bindings':
+        specifier: ^0.16.4
+        version: 0.16.5
+      '@polkadot-api/utils':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@polkahub/context':
+        specifier: workspace:*
+        version: link:../../packages/context
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@polkahub/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/multisig:
+    dependencies:
+      '@polkadot-api/meta-signers':
+        specifier: ^0.1.17
+        version: 0.1.17
+      '@polkadot-api/substrate-bindings':
+        specifier: ^0.16.4
+        version: 0.16.5
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      polkadot-api:
+        specifier: ^1.20.1
+        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/pjs-wallet:
+    dependencies:
+      '@polkadot-api/pjs-signer':
+        specifier: ^0.6.17
+        version: 0.6.17
+      '@polkahub/context':
+        specifier: workspace:*
+        version: link:../../packages/context
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@polkahub/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
       '@react-rxjs/core':
         specifier: ^0.10.8
         version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
@@ -624,23 +473,174 @@ importers:
         specifier: ^19.2.0
         version: 19.2.0
 
-  packages/wallet-connect:
+  plugins/proxy:
+    dependencies:
+      '@polkadot-api/meta-signers':
+        specifier: ^0.1.17
+        version: 0.1.17
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      polkadot-api:
+        specifier: ^1.20.1
+        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/read-only:
     dependencies:
       '@polkadot-api/substrate-bindings':
         specifier: ^0.16.4
         version: 0.16.5
       '@polkahub/context':
         specifier: workspace:*
-        version: link:../context
+        version: link:../../packages/context
       '@polkahub/plugin':
         specifier: workspace:*
-        version: link:../plugin
+        version: link:../../packages/plugin
       '@polkahub/select-account':
         specifier: workspace:*
         version: link:../select-account
       '@polkahub/ui-components':
         specifier: workspace:*
-        version: link:../ui-components
+        version: link:../../packages/ui-components
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      lucide-react:
+        specifier: ^0.552.0
+        version: 0.552.0(react@19.2.0)
+      polkadot-api:
+        specifier: ^1.20.1
+        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/select-account:
+    dependencies:
+      '@polkadot-api/react-components':
+        specifier: ^0.3.2
+        version: 0.3.3(react-dom@19.2.0)(react@19.2.0)
+      '@polkadot-api/substrate-bindings':
+        specifier: ^0.16.4
+        version: 0.16.5
+      '@polkahub/context':
+        specifier: workspace:*
+        version: link:../../packages/context
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@polkahub/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      '@rx-state/core':
+        specifier: ^0.1.4
+        version: 0.1.4(rxjs@7.8.2)
+      lucide-react:
+        specifier: ^0.552.0
+        version: 0.552.0(react@19.2.0)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/vault:
+    dependencies:
+      '@polkadot-api/signers-common':
+        specifier: ^0.1.18
+        version: 0.1.18
+      '@polkadot-api/substrate-bindings':
+        specifier: ^0.16.4
+        version: 0.16.5
+      '@polkahub/context':
+        specifier: workspace:*
+        version: link:../../packages/context
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@polkahub/select-account':
+        specifier: workspace:*
+        version: link:../select-account
+      '@polkahub/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
+      '@react-rxjs/core':
+        specifier: ^0.10.8
+        version: 0.10.8(react@19.2.0)(rxjs@7.8.2)
+      '@react-rxjs/utils':
+        specifier: ^0.9.7
+        version: 0.9.7(@react-rxjs/core@0.10.8)(react@19.2.0)(rxjs@7.8.2)
+      lucide-react:
+        specifier: ^0.552.0
+        version: 0.552.0(react@19.2.0)
+      polkadot-api:
+        specifier: ^1.20.1
+        version: 1.20.1(postcss@8.5.6)(rxjs@7.8.2)
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.2
+        version: 19.2.2
+      react:
+        specifier: ^19.2.0
+        version: 19.2.0
+
+  plugins/wallet-connect:
+    dependencies:
+      '@polkadot-api/substrate-bindings':
+        specifier: ^0.16.4
+        version: 0.16.5
+      '@polkahub/context':
+        specifier: workspace:*
+        version: link:../../packages/context
+      '@polkahub/plugin':
+        specifier: workspace:*
+        version: link:../../packages/plugin
+      '@polkahub/select-account':
+        specifier: workspace:*
+        version: link:../select-account
+      '@polkahub/ui-components':
+        specifier: workspace:*
+        version: link:../../packages/ui-components
       '@react-rxjs/core':
         specifier: ^0.10.8
         version: 0.10.8(react@19.2.0)(rxjs@7.8.2)

@@ -1,5 +1,6 @@
 packages:
   - packages/*
+  - plugins/*
   - example
 onlyBuiltDependencies:
   - "@swc/core"
