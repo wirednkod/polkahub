@@ -23,6 +23,8 @@ CHANGES:
 
 - Adds `noIsolation` to <RemoveScroll>, to allow for nested scrolls
 - Swaps useId for React's
+- Disabled `FocusScope` since it retains focus from nested combobox since version react-focus-scope@1.1.8
+- Removed "missing description" warning
 
  */
 
@@ -454,24 +456,24 @@ const DialogContentImpl = React.forwardRef<
 
   return (
     <>
-      <FocusScope
+      {/* <FocusScope
         asChild
         loop
         trapped={trapFocus}
         onMountAutoFocus={onOpenAutoFocus}
         onUnmountAutoFocus={onCloseAutoFocus}
-      >
-        <DismissableLayer
-          role="dialog"
-          id={context.contentId}
-          aria-describedby={context.descriptionId}
-          aria-labelledby={context.titleId}
-          data-state={getState(context.open)}
-          {...contentProps}
-          ref={composedRefs}
-          onDismiss={() => context.onOpenChange(false)}
-        />
-      </FocusScope>
+      > */}
+      <DismissableLayer
+        role="dialog"
+        id={context.contentId}
+        aria-describedby={context.descriptionId}
+        aria-labelledby={context.titleId}
+        data-state={getState(context.open)}
+        {...contentProps}
+        ref={composedRefs}
+        onDismiss={() => context.onOpenChange(false)}
+      />
+      {/* </FocusScope> */}
       {process.env.NODE_ENV !== "production" && (
         <>
           <TitleWarning titleId={context.titleId} />
@@ -619,8 +621,8 @@ const DescriptionWarning: React.FC<DescriptionWarningProps> = ({
     const describedById = contentRef.current?.getAttribute("aria-describedby");
     // if we have an id and the user hasn't set aria-describedby={undefined}
     if (descriptionId && describedById) {
-      const hasDescription = document.getElementById(descriptionId);
-      if (!hasDescription) console.warn(MESSAGE);
+      // const hasDescription = document.getElementById(descriptionId);
+      // if (!hasDescription) console.warn(MESSAGE);
     }
   }, [MESSAGE, contentRef, descriptionId]);
 

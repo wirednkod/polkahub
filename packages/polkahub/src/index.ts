@@ -10,8 +10,8 @@ export {
   useModalContext,
   usePlugin,
   usePolkaHubContext,
-  type AddressBalance,
-  type AddressIdentity,
+  AddressBalance,
+  AddressIdentity,
 } from "@polkahub/context";
 export * from "@polkahub/ledger";
 export * from "@polkahub/mimir";
