@@ -7,7 +7,8 @@ export const AddressInput: FC<{
   value: AccountAddress | null;
   onChange: (value: AccountAddress | null) => void;
   className?: string;
-}> = ({ className, value, onChange }) => {
+  triggerClassName?: string;
+}> = ({ className, value, onChange, triggerClassName }) => {
   const availableAccounts = useAvailableAccounts();
 
   const hints = useMemo(() => {
@@ -31,6 +32,7 @@ export const AddressInput: FC<{
       value={value}
       onChange={onChange}
       className={className}
+      triggerClassName={triggerClassName}
       hinted={Object.values(hints).flat()}
       renderAddress={(account: Account | string) =>
         typeof account === "string" ? (

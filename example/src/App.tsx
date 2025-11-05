@@ -15,7 +15,9 @@ import { useMemo, useState } from "react";
 import { Card } from "./Card";
 
 function App() {
-  const [value, setValue] = useState<string | null>(null);
+  const [value, setValue] = useState<string | null>(
+    "5FxrUu1PUugUYs6HQ83bDswjGLyHYTEzm7yqmrkKVPaYe71Y"
+  );
 
   return (
     <div className="container m-auto">
@@ -23,7 +25,11 @@ function App() {
         <ConnectButton />
         <SelectedAccount />
         <AvailableAccounts />
-        <AddressInput value={value} onChange={setValue} />
+        <AddressInput
+          value={value}
+          onChange={setValue}
+          triggerClassName="h-9"
+        />
       </div>
     </div>
   );

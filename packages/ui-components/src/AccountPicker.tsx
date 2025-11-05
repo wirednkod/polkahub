@@ -27,11 +27,13 @@ export function AccountPicker<T extends AccountInfo = never>({
       copyable={false}
     />
   ),
+  triggerClassName,
 }: {
   value: T | null;
   onChange: (value: T | null) => void;
   groups: { accounts: T[] } | Array<{ name: ReactNode; accounts: T[] }>;
   className?: string;
+  triggerClassName?: string;
   renderAddress?: (value: T) => ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -55,7 +57,7 @@ export function AccountPicker<T extends AccountInfo = never>({
     <Popover open={open} onOpenChange={setOpen}>
       <div
         className={cn(
-          "flex items-center gap-2 overflow-hidden w-full max-w-96",
+          "flex items-center gap-2 overflow-hidden w-full max-w-96 relative group",
           className
         )}
       >
@@ -64,7 +66,10 @@ export function AccountPicker<T extends AccountInfo = never>({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex grow shrink-0 h-12 justify-between overflow-hidden border border-border bg-background"
+            className={cn(
+              "grow shrink-0 p-2 has-[>svg]:p-2 h-12 max-w-full flex justify-between overflow-hidden border border-border bg-background",
+              triggerClassName
+            )}
           >
             {value != null ? (
               renderAddress(value)
@@ -75,7 +80,10 @@ export function AccountPicker<T extends AccountInfo = never>({
           </Button>
         </PopoverTrigger>
         {value ? (
-          <button className="cursor-pointer" onClick={() => onChange(null)}>
+          <button
+            className="cursor-pointer absolute top-1/2 right-6 -translate-y-1/2 bg-background group-has-hover:bg-accent dark:group-has-hover:bg-input/50 transition-all rounded-full p-1"
+            onClick={() => onChange(null)}
+          >
             <X className="text-muted-foreground" size={16} />
           </button>
         ) : null}

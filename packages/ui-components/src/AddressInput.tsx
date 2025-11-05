@@ -35,10 +35,12 @@ export function AddressInput<T extends AccountInfo = never>({
     />
   ),
   hinted = [],
+  triggerClassName,
 }: {
   value: string | null;
   onChange: (value: string | null) => void;
   className?: string;
+  triggerClassName?: string;
   hinted?: Array<T | string>;
   renderAddress?: (value: T | string) => ReactNode;
 }) {
@@ -60,9 +62,14 @@ export function AddressInput<T extends AccountInfo = never>({
     return [...byAddress.values()];
   }, [hinted]);
 
-  const hintedValue = value
+  const cleanHintedValue = value
     ? cleanHinted.find((acc) => addrEq(acc.address, value))
     : null;
+  const hintedValue =
+    cleanHintedValue &&
+    ((Object.keys(cleanHintedValue).length === 1
+      ? cleanHintedValue.address
+      : cleanHintedValue) as string | T | null);
   const valueIsNew = hintedValue == null;
 
   const queryMatchesHint =
@@ -86,7 +93,7 @@ export function AddressInput<T extends AccountInfo = never>({
     <Popover open={open} onOpenChange={setOpen}>
       <div
         className={cn(
-          "flex items-center gap-2 overflow-hidden w-full max-w-96",
+          "flex items-center gap-2 overflow-hidden w-full max-w-96 relative group",
           className
         )}
       >
@@ -95,10 +102,13 @@ export function AddressInput<T extends AccountInfo = never>({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className="flex grow shrink-0 h-12 justify-between overflow-hidden border border-border bg-background"
+            className={cn(
+              "grow shrink-0 p-2 has-[>svg]:p-2 h-12 max-w-full flex justify-between overflow-hidden border border-border bg-background",
+              triggerClassName
+            )}
           >
             {value != null ? (
-              renderAddress(value)
+              renderAddress(hintedValue ?? value)
             ) : (
               <span className="opacity-80">Select…</span>
             )}
@@ -106,7 +116,10 @@ export function AddressInput<T extends AccountInfo = never>({
           </Button>
         </PopoverTrigger>
         {value ? (
-          <button className="cursor-pointer" onClick={() => onChange(null)}>
+          <button
+            className="cursor-pointer absolute top-1/2 right-6 -translate-y-1/2 bg-background group-has-hover:bg-accent dark:group-has-hover:bg-input/50 transition-all rounded-full p-1"
+            onClick={() => onChange(null)}
+          >
             <X className="text-muted-foreground" size={16} />
           </button>
         ) : null}
