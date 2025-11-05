@@ -1,5 +1,8 @@
 import { AddressIdentity, useAvailableAccounts } from "@polkahub/context";
-import { AccountPicker as AccountPickerComponent } from "@polkahub/ui-components";
+import {
+  AccountPicker as AccountPickerComponent,
+  cn,
+} from "@polkahub/ui-components";
 import { type FC } from "react";
 import { useSelectedAccount } from "./provider";
 
@@ -34,7 +37,7 @@ export const SelectAccountField: FC<{
         value={account}
         onChange={setAccount}
         groups={groups}
-        className={className}
+        className={cn(className, "max-w-auto")}
         renderAddress={(account) => (
           <AddressIdentity
             addr={account.address}

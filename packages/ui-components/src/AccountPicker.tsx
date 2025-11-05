@@ -53,16 +53,18 @@ export function AccountPicker<T extends AccountInfo = never>({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <div className="flex items-center gap-2 overflow-hidden">
+      <div
+        className={cn(
+          "flex items-center gap-2 overflow-hidden w-full max-w-96",
+          className
+        )}
+      >
         <PopoverTrigger asChild onKeyDown={onTriggerKeyDown}>
           <Button
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={cn(
-              "flex w-full shrink justify-between overflow-hidden border border-border bg-background h-12",
-              className
-            )}
+            className="flex grow shrink-0 h-12 justify-between overflow-hidden border border-border bg-background"
           >
             {value != null ? (
               renderAddress(value)
