@@ -1,6 +1,6 @@
 import { AccountDisplay } from "@polkadot-api/react-components";
 import {
-  AccountInput,
+  AddressInput,
   ManageLedger,
   ManagePjsWallets,
   ManageReadOnly,
@@ -23,7 +23,7 @@ function App() {
         <ConnectButton />
         <SelectedAccount />
         <AvailableAccounts />
-        <AccountInput value={value} onChange={setValue} />
+        <AddressInput value={value} onChange={setValue} />
       </div>
     </div>
   );

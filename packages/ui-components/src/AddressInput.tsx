@@ -23,7 +23,7 @@ import {
   type FC,
 } from "react";
 
-export function AccountInput<T extends AccountInfo = never>({
+export function AddressInput<T extends AccountInfo = never>({
   className,
   value,
   onChange,

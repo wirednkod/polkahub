@@ -1,17 +1,17 @@
 import { AddressIdentity, useAvailableAccounts } from "@polkahub/context";
-import { Account } from "@polkahub/plugin";
-import { AccountInput as AccountInputComponent } from "@polkahub/ui-components";
+import { Account, AccountAddress } from "@polkahub/plugin";
+import { AddressInput as AddressInputComponent } from "@polkahub/ui-components";
 import { FC, useMemo } from "react";
 
-export const AccountInput: FC<{
-  value: string | null;
-  onChange: (value: string | null) => void;
+export const AddressInput: FC<{
+  value: AccountAddress | null;
+  onChange: (value: AccountAddress | null) => void;
   className?: string;
 }> = ({ className, value, onChange }) => {
   const availableAccounts = useAvailableAccounts();
 
   const hints = useMemo(() => {
-    const addressToAccounts: Record<string, Account[]> = {};
+    const addressToAccounts: Record<AccountAddress, Account[]> = {};
     Object.values(availableAccounts)
       .flat()
       .forEach((acc) => {
@@ -27,7 +27,7 @@ export const AccountInput: FC<{
   }, [availableAccounts]);
 
   return (
-    <AccountInputComponent
+    <AddressInputComponent
       value={value}
       onChange={onChange}
       className={className}
