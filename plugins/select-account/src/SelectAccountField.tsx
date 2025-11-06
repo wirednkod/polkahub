@@ -17,7 +17,9 @@ const groupLabels: Record<string, string> = {
 
 export const SelectAccountField: FC<{
   className?: string;
-}> = ({ className }) => {
+  disableClear?: boolean;
+  maxAddrLength?: number;
+}> = (props) => {
   const availableAccounts = useAvailableAccounts();
   const [account] = useSelectedAccount();
 
@@ -30,7 +32,7 @@ export const SelectAccountField: FC<{
   return (
     <div>
       <h3 className="font-medium">Select Account</h3>
-      <SelectAccount className={className} />
+      <SelectAccount {...props} />
     </div>
   );
 };
@@ -38,7 +40,8 @@ export const SelectAccountField: FC<{
 export const SelectAccount: FC<{
   className?: string;
   disableClear?: boolean;
-}> = ({ className, disableClear }) => {
+  maxAddrLength?: number;
+}> = ({ className, disableClear, maxAddrLength }) => {
   const availableAccounts = useAvailableAccounts();
   const [account, setAccount] = useSelectedAccount();
 
@@ -60,6 +63,7 @@ export const SelectAccount: FC<{
         <AddressIdentity
           addr={account.address}
           name={account?.name}
+          maxAddrLength={maxAddrLength}
           copyable={false}
         />
       )}

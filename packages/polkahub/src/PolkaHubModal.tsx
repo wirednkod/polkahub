@@ -65,7 +65,8 @@ export const PolkaHubModal: FC<
       }
       if (prev === acc) return;
       prev = acc;
-      contextValue.closeModal();
+      // Only close when setting an account, not when resetting it.
+      if (acc) contextValue.closeModal();
     });
 
     return () => sub.unsubscribe();

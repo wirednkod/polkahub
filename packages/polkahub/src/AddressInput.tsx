@@ -9,7 +9,8 @@ export const AddressInput: FC<{
   disableClear?: boolean;
   className?: string;
   triggerClassName?: string;
-}> = ({ className, value, disableClear, onChange, triggerClassName }) => {
+  maxAddrLength?: number;
+}> = ({ maxAddrLength, ...props }) => {
   const availableAccounts = useAvailableAccounts();
 
   const hints = useMemo(() => {
@@ -30,23 +31,24 @@ export const AddressInput: FC<{
 
   return (
     <AddressInputComponent
-      value={value}
-      onChange={onChange}
-      className={className}
-      triggerClassName={triggerClassName}
       hinted={Object.values(hints).flat()}
-      disableClear={disableClear}
       renderAddress={(account: Account | string) =>
         typeof account === "string" ? (
-          <AddressIdentity addr={account} copyable={false} />
+          <AddressIdentity
+            addr={account}
+            maxAddrLength={maxAddrLength}
+            copyable={false}
+          />
         ) : (
           <AddressIdentity
             addr={account.address}
             name={account?.name}
+            maxAddrLength={maxAddrLength}
             copyable={false}
           />
         )
       }
+      {...props}
     />
   );
 };

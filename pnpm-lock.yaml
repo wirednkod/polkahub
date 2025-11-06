@@ -51,11 +51,11 @@ importers:
   example:
     dependencies:
       '@ledgerhq/hw-transport-webhid':
-        specifier: ^6.30.8
-        version: 6.30.8
+        specifier: ^6.30.9
+        version: 6.30.9
       '@polkadot-api/react-components':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.0)(react@19.2.0)
+        specifier: ^0.4.1
+        version: 0.4.1(react-dom@19.2.0)(react@19.2.0)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -83,7 +83,7 @@ importers:
         version: 9.39.1
       '@tailwindcss/vite':
         specifier: ^4.1.16
-        version: 4.1.16(vite@7.2.0)
+        version: 4.1.16(vite@7.2.1)
       '@types/node':
         specifier: ^24.10.0
         version: 24.10.0
@@ -95,7 +95,7 @@ importers:
         version: 19.2.2(@types/react@19.2.2)
       '@vitejs/plugin-react':
         specifier: ^5.0.4
-        version: 5.1.0(vite@7.2.0)
+        version: 5.1.0(vite@7.2.1)
       eslint:
         specifier: ^9.39.1
         version: 9.39.1
@@ -121,14 +121,14 @@ importers:
         specifier: ^8.46.3
         version: 8.46.3(eslint@9.39.1)(typescript@5.9.3)
       vite:
-        specifier: ^7.2.0
-        version: 7.2.0(@types/node@24.10.0)
+        specifier: ^7.2.1
+        version: 7.2.1(@types/node@24.10.0)
 
   packages/context:
     dependencies:
       '@polkadot-api/react-components':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.0)(react@19.2.0)
+        specifier: ^0.4.1
+        version: 0.4.1(react-dom@19.2.0)(react@19.2.0)
       '@polkahub/plugin':
         specifier: workspace:*
         version: link:../plugin
@@ -252,8 +252,8 @@ importers:
   packages/ui-components:
     dependencies:
       '@polkadot-api/react-components':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.0)(react@19.2.0)
+        specifier: ^0.4.1
+        version: 0.4.1(react-dom@19.2.0)(react@19.2.0)
       '@polkadot-api/substrate-bindings':
         specifier: ^0.16.4
         version: 0.16.5
@@ -331,11 +331,11 @@ importers:
   plugins/ledger:
     dependencies:
       '@ledgerhq/hw-transport':
-        specifier: ^6.31.12
-        version: 6.31.12
+        specifier: ^6.31.13
+        version: 6.31.13
       '@polkadot-api/ledger-signer':
         specifier: ^0.2.13
-        version: 0.2.13(@ledgerhq/hw-transport@6.31.12)
+        version: 0.2.13(@ledgerhq/hw-transport@6.31.13)
       '@polkahub/context':
         specifier: workspace:*
         version: link:../../packages/context
@@ -553,8 +553,8 @@ importers:
   plugins/select-account:
     dependencies:
       '@polkadot-api/react-components':
-        specifier: ^0.4.0
-        version: 0.4.0(react-dom@19.2.0)(react@19.2.0)
+        specifier: ^0.4.1
+        version: 0.4.1(react-dom@19.2.0)(react@19.2.0)
       '@polkadot-api/substrate-bindings':
         specifier: ^0.16.4
         version: 0.16.5
@@ -1242,33 +1242,33 @@ packages:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  /@ledgerhq/devices@8.6.1:
-    resolution: {integrity: sha512-PQR2fyWz7P/wMFHY9ZLz17WgFdxC/Im0RVDcWXpp24+iRQRyxhQeX2iG4mBKUzfaAW6pOIEiWt+vmJh88QP9rQ==}
+  /@ledgerhq/devices@8.7.0:
+    resolution: {integrity: sha512-3pSOULPUhClk2oOxa6UnoyXW8+05FK7r6cpq2WiTey4kyIUjmIraO7AX9lhz9IU73dGVtBMdU+NCPPO2RYJaTQ==}
     dependencies:
-      '@ledgerhq/errors': 6.26.0
+      '@ledgerhq/errors': 6.27.0
       '@ledgerhq/logs': 6.13.0
       rxjs: 7.8.2
       semver: 7.7.3
     dev: false
 
-  /@ledgerhq/errors@6.26.0:
-    resolution: {integrity: sha512-4OlisaDBafkn7KN5emue08lCGMVREX6T+nxj47C7W30EBA/leLAEDaVvUw5/gFOWrv8Q2A9Scb8aMM3uokyt0w==}
+  /@ledgerhq/errors@6.27.0:
+    resolution: {integrity: sha512-EE2hATONHdNP3YWFe3rZwwpSEzI5oN+q/xTjOulnjHZo84TLjungegEJ54A/Pzld0woulkkeVA27FbW5SAO1aA==}
     dev: false
 
-  /@ledgerhq/hw-transport-webhid@6.30.8:
-    resolution: {integrity: sha512-2Hc15GjC7BFrpMVJYJ7N2p70A6OzIdcMklwUEYpOcIVYbEWWj84+M5E5pc83ZIBc5j3C8rdtjncPCm2ExGx2LQ==}
+  /@ledgerhq/hw-transport-webhid@6.30.9:
+    resolution: {integrity: sha512-5if/V1NyOr4JuEX+NB/bxaE92TptpgX+r1mGmzDHG6Gs9/fX/HhKe1GVwwU5C7LvTFrdTgMzEs2aIkpoMM60Ag==}
     dependencies:
-      '@ledgerhq/devices': 8.6.1
-      '@ledgerhq/errors': 6.26.0
-      '@ledgerhq/hw-transport': 6.31.12
+      '@ledgerhq/devices': 8.7.0
+      '@ledgerhq/errors': 6.27.0
+      '@ledgerhq/hw-transport': 6.31.13
       '@ledgerhq/logs': 6.13.0
     dev: false
 
-  /@ledgerhq/hw-transport@6.31.12:
-    resolution: {integrity: sha512-FO5LRIXYC8ELtaohlO8qK0b3TfHUNBZ3+CXKPHiHj2jJwrxPf4s5kcgBYrmzuf1C/1vfrMOjzyty6OgrMIbU6Q==}
+  /@ledgerhq/hw-transport@6.31.13:
+    resolution: {integrity: sha512-MrJRDk74wY980ofiFPRpTHQBbRw1wDuKbdag1zqlO1xtJglymwwY03K2kvBNvkm1RTSCPUp/nAoNG+WThZuuew==}
     dependencies:
-      '@ledgerhq/devices': 8.6.1
-      '@ledgerhq/errors': 6.26.0
+      '@ledgerhq/devices': 8.7.0
+      '@ledgerhq/errors': 6.27.0
       '@ledgerhq/logs': 6.13.0
       events: 3.3.0
     dev: false
@@ -1480,12 +1480,12 @@ packages:
     resolution: {integrity: sha512-oycXOmGiAORh+1+Qgd5frwtEN4r50Wc66diauhSl5JYC/6CJFXIpH1hf0i7MZ9+b7EoDFgBVeLhOYTLDmP9MhA==}
     dev: false
 
-  /@polkadot-api/ledger-signer@0.2.13(@ledgerhq/hw-transport@6.31.12):
+  /@polkadot-api/ledger-signer@0.2.13(@ledgerhq/hw-transport@6.31.13):
     resolution: {integrity: sha512-2K3ODR8rMFUuiVBZL8L07B4zJHvIiJOyQqjJVzEDATDS+lWEje9eq6i5uI4SmYgNkyNr9VofwHW8UHXqD9mUqg==}
     peerDependencies:
       '@ledgerhq/hw-transport': '6'
     dependencies:
-      '@ledgerhq/hw-transport': 6.31.12
+      '@ledgerhq/hw-transport': 6.31.13
       '@polkadot-api/merkleize-metadata': 1.1.27
       '@polkadot-api/polkadot-signer': 0.1.6
       '@polkadot-api/signers-common': 0.1.18
@@ -1581,8 +1581,8 @@ packages:
       '@polkadot-api/json-rpc-provider': 0.0.4
     dev: false
 
-  /@polkadot-api/react-components@0.4.0(react-dom@19.2.0)(react@19.2.0):
-    resolution: {integrity: sha512-sjGYOBv9ycdCn0ZcopaZxHdJ/h1p30dxjPuHQ5mAaZsrgfRxmE9J5LJ/aa58qUuQgbrx0DCLkP/LSpiakQeLTg==}
+  /@polkadot-api/react-components@0.4.1(react-dom@19.2.0)(react@19.2.0):
+    resolution: {integrity: sha512-hXfocFutXnun7xDqVE8NbkQ4azDi2h6ArBCE7TjlmCPn2dHMw6Y+D8//UOwgBxBbxnbOUmzb1sXrmWzeFFawGg==}
     peerDependencies:
       react: ^19.0.0
       react-dom: ^19.0.0
@@ -2869,7 +2869,7 @@ packages:
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.16
     dev: true
 
-  /@tailwindcss/vite@4.1.16(vite@7.2.0):
+  /@tailwindcss/vite@4.1.16(vite@7.2.1):
     resolution: {integrity: sha512-bbguNBcDxsRmi9nnlWJxhfDWamY3lmcyACHcdO1crxfzuLpOhHLLtEIN/nCbbAtj5rchUgQD17QVAKi1f7IsKg==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
@@ -2877,7 +2877,7 @@ packages:
       '@tailwindcss/node': 4.1.16
       '@tailwindcss/oxide': 4.1.16
       tailwindcss: 4.1.16
-      vite: 7.2.0(@types/node@24.10.0)
+      vite: 7.2.1(@types/node@24.10.0)
     dev: true
 
   /@trysound/sax@0.2.0:
@@ -3095,7 +3095,7 @@ packages:
       eslint-visitor-keys: 4.2.1
     dev: true
 
-  /@vitejs/plugin-react@5.1.0(vite@7.2.0):
+  /@vitejs/plugin-react@5.1.0(vite@7.2.1):
     resolution: {integrity: sha512-4LuWrg7EKWgQaMJfnN+wcmbAW+VSsCmqGohftWjuct47bv8uE4n/nPpq4XjJPsxgq00GGG5J8dvBczp8uxScew==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
@@ -3107,7 +3107,7 @@ packages:
       '@rolldown/pluginutils': 1.0.0-beta.43
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 7.2.0(@types/node@24.10.0)
+      vite: 7.2.1(@types/node@24.10.0)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6806,8 +6806,8 @@ packages:
       - zod
     dev: false
 
-  /vite@7.2.0(@types/node@24.10.0):
-    resolution: {integrity: sha512-C/Naxf8H0pBx1PA4BdpT+c/5wdqI9ILMdwjSMILw7tVIh3JsxzZqdeTLmmdaoh5MYUEOyBnM9K3o0DzoZ/fe+w==}
+  /vite@7.2.1(@types/node@24.10.0):
+    resolution: {integrity: sha512-qTl3VF7BvOupTR85Zc561sPEgxyUSNSvTQ9fit7DEMP7yPgvvIGm5Zfa1dOM+kOwWGNviK9uFM9ra77+OjK7lQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
