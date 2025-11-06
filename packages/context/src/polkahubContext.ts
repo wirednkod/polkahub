@@ -2,6 +2,7 @@ import type { AccountAddress, Plugin } from "@polkahub/plugin";
 import type { Balance, Identity, PolkaHub } from "@polkahub/state";
 import { useStateObservable } from "@react-rxjs/core";
 import { createContext, useContext, useEffect, useState } from "react";
+import { from, Observable, of } from "rxjs";
 
 export interface PolkaHubContext {
   polkaHub: PolkaHub;
@@ -15,9 +16,9 @@ export const usePolkaHubContext = () => {
   return ctx;
 };
 
-const usePromise = <K, T>(
+const useAsync = <K, T>(
   key: K | null,
-  promiseFn: (key: K) => Promise<T | null>
+  asyncFn: (key: K) => Observable<T | null>
 ) => {
   const [[storedKey, storedValue], setValue] = useState<[K | null, T | null]>([
     key,
@@ -27,33 +28,35 @@ const usePromise = <K, T>(
   useEffect(() => {
     if (key === null) return;
 
-    let cancelled = false;
-    promiseFn(key).then((value) => {
-      if (cancelled) return;
-      setValue([key, value]);
+    const asyncValue = asyncFn(key);
+    const sub = from(asyncValue).subscribe({
+      next: (value) => {
+        setValue([key, value]);
+      },
+      error: (ex) => {
+        console.error(ex);
+      },
     });
 
-    return () => {
-      cancelled = true;
-    };
-  }, [key, promiseFn]);
+    return () => sub.unsubscribe();
+  }, [key, asyncFn]);
 
   return key === storedKey ? storedValue : null;
 };
 
-const nullProvider = async () => null;
+const nullProvider = () => of(null);
 export const useIdentity = (
   address: AccountAddress | null
 ): Identity | null => {
   const { polkaHub } = usePolkaHubContext();
   const getIdentity = useStateObservable(polkaHub.identityProvider$);
-  return usePromise(address, getIdentity ?? nullProvider);
+  return useAsync(address, getIdentity ?? nullProvider);
 };
 
 export const useBalance = (address: AccountAddress | null): Balance | null => {
   const { polkaHub } = usePolkaHubContext();
   const getBalance = useStateObservable(polkaHub.balanceProvider$);
-  return usePromise(address, getBalance ?? nullProvider);
+  return useAsync(address, getBalance ?? nullProvider);
 };
 
 export const usePlugin = <T extends Plugin<any>>(id: string): T | null => {

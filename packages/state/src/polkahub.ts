@@ -30,8 +30,12 @@ export interface Balance {
 }
 
 interface PolkaHubOptions {
-  getIdentity: (address: AccountAddress) => Promise<Identity | null>;
-  getBalance: (address: AccountAddress) => Promise<Balance | null>;
+  getIdentity: (
+    address: AccountAddress
+  ) => Promise<Identity | null> | Observable<Identity | null>;
+  getBalance: (
+    address: AccountAddress
+  ) => Promise<Balance | null> | Observable<Balance | null>;
 }
 
 type PluginInput =
@@ -50,10 +54,10 @@ export interface PolkaHub {
   ) => DefaultedStateObservable<A[]>;
 
   identityProvider$: DefaultedStateObservable<
-    ((address: AccountAddress) => Promise<Identity | null>) | null
+    ((address: AccountAddress) => Observable<Identity | null>) | null
   >;
   balanceProvider$: DefaultedStateObservable<
-    ((address: AccountAddress) => Promise<Balance | null>) | null
+    ((address: AccountAddress) => Observable<Balance | null>) | null
   >;
 
   setPlugins: (plugins: PluginInput) => void;
@@ -131,21 +135,28 @@ export function createPolkaHub(
   ) as <A extends Account>(id: string) => DefaultedStateObservable<A[]>;
 
   const [optionsChange$, setOptions] = createSignal<Partial<PolkaHubOptions>>();
+  const asyncFnToObservableFn =
+    <T, A extends any[]>(fn: (...args: A) => Promise<T> | Observable<T>) =>
+    (...args: A) =>
+      from(fn(...args));
+
   const identityProvider$ = state(
     optionsChange$.pipe(
       map((v) => v.getIdentity),
       filter((v) => v != null),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      map(asyncFnToObservableFn)
     ),
-    opts?.getIdentity ?? (async () => null)
+    asyncFnToObservableFn(opts?.getIdentity ?? (async () => null))
   );
   const balanceProvider$ = state(
     optionsChange$.pipe(
       map((v) => v.getBalance),
       filter((v) => v != null),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      map(asyncFnToObservableFn)
     ),
-    opts?.getBalance ?? (async () => null)
+    asyncFnToObservableFn(opts?.getBalance ?? (async () => null))
   );
 
   const sub = merge(

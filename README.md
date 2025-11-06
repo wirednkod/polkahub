@@ -11,7 +11,7 @@ PolkaHub is a toolkit to integrate with multiple Polkadot Wallets, from browser 
   - Polkadot Vault
   - Ledger devices
   - Read-only accounts
-  - WalletConnect (UI in development)
+  - WalletConnect
   - Proxy accounts (UI in development)
   - Multisig accounts (UI in development)
 - 🧩 Plugin-based architecture so you can compose providers, account selectors, and custom wallets.
@@ -104,7 +104,7 @@ createRoot(document.getElementById("root")!).render(
 
 ### 4. Create the modal
 
-Create a button that triggers the modal, with the components you have selected.
+Add a button that triggers the modal, with the components you'd like:
 
 ```tsx
 import {
@@ -161,7 +161,7 @@ const MyCustomPjsWalletManager = () => {
 
 The hook returns the plugin instance, giving you direct access to its observables and methods. Combine it with your own UI controls to tailor the experience.
 
-## State-only usage (Advanced)
+## State-only usage
 
 Every plugin implements a minimal contract and can expose additional methods or metadata tailored to its own use case:
 
