@@ -10,6 +10,7 @@ import { useSetSelectedAccount } from "@polkahub/select-account";
 import {
   Button,
   InlineAddressInput,
+  Input,
   SourceButton,
 } from "@polkahub/ui-components";
 import { Eye, Trash2 } from "lucide-react";
@@ -40,6 +41,7 @@ export const ManageReadOnly: FC = () => {
 
 const ManageAddresses = () => {
   const [address, setAddress] = useState<AccountAddress | null>(null);
+  const [name, setName] = useState("");
   const availableAccounts = useAvailableAccounts();
   const readOnlyProvider = usePlugin<ReadOnlyProvider>(readOnlyProviderId)!;
   const readOnlyAccounts = availableAccounts[readOnlyProviderId] ?? [];
@@ -63,6 +65,14 @@ const ManageAddresses = () => {
             name="address"
             value={address}
             onChange={setAddress}
+            className="shrink-[2]"
+          />
+          <Input
+            name="name"
+            value={name}
+            onChange={(evt) => setName(evt.target.value)}
+            placeholder="Name (optional)"
+            className="shrink-[3]"
           />
           <Button disabled={!address}>Add</Button>
         </div>

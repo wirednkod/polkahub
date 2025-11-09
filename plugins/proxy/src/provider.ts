@@ -16,6 +16,7 @@ import { BehaviorSubject, combineLatest, map, switchMap } from "rxjs";
 export interface ProxyInfo {
   real: AccountAddress;
   parentSigner: SerializableAccount;
+  name?: string;
 }
 
 export const proxyProviderId = "proxy";
@@ -56,6 +57,7 @@ export const createProxyProvider = (
     provider: proxyProviderId,
     address: info.real,
     signer: getProxySigner(info, parentSigner),
+    name: info.name,
     info,
   });
 

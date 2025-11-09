@@ -6,7 +6,13 @@ import {
   usePolkaHubContext,
 } from "@polkahub/context";
 import { Account, AccountAddress, defaultSerialize } from "@polkahub/plugin";
-import { AccountPicker, AddressInput, Button } from "@polkahub/ui-components";
+import {
+  AccountPicker,
+  AlertBox,
+  Button,
+  InlineAddressInput,
+  Input,
+} from "@polkahub/ui-components";
 import { AccountId } from "polkadot-api";
 import { toHex } from "polkadot-api/utils";
 import { useEffect, useMemo, useState, type FC } from "react";
@@ -56,6 +62,7 @@ export const AddProxy: FC<AddProxyProps> = ({
   const { polkaHub } = usePolkaHubContext();
 
   const [proxyAddress, setProxyAddress] = useState<AccountAddress | null>(null);
+  const [name, setName] = useState("");
   const [selectedAccount, setSelectedAccount] =
     useState<AccountWithProxy | null>(null);
 
@@ -79,30 +86,36 @@ export const AddProxy: FC<AddProxyProps> = ({
         proxyProvider?.addProxy({
           real: proxyAddress,
           parentSigner: serializeFn(selectedAccount),
+          name: name.trim() ? name.trim() : undefined,
         });
 
         popContent();
       }}
     >
-      <label className="block">
-        <div>Insert Proxy Address</div>
-        <AddressInput
-          renderAddress={(account: Account | string) => (
-            <AddressIdentity
-              addr={typeof account === "string" ? account : account.address}
-              maxAddrLength={maxAddrLength}
-              copyable={false}
-            />
-          )}
-          value={proxyAddress}
-          onChange={setProxyAddress}
-          className="max-w-auto"
-          disableClear
-        />
-      </label>
+      <div className="space-y-2">
+        <h3 className="font-medium text-muted-foreground">
+          Insert Proxy Address (Delegator)
+        </h3>
+        <div className="flex gap-2">
+          <InlineAddressInput
+            value={proxyAddress}
+            onChange={setProxyAddress}
+            className="max-w-auto shrink-[2]"
+          />
+          <Input
+            name="account-name"
+            value={name}
+            onChange={(evt) => setName(evt.target.value)}
+            placeholder="Name (optional)"
+            className="shrink-[3]"
+          />
+        </div>
+      </div>
       {proxyAddress ? (
-        <label className="block">
-          <div>Select your signer</div>
+        <div className="space-y-2">
+          <h3 className="font-medium text-muted-foreground">
+            Select your signer (Delegate)
+          </h3>
           <ProxySignerPicker
             maxAddrLength={maxAddrLength}
             value={selectedAccount}
@@ -110,11 +123,11 @@ export const AddProxy: FC<AddProxyProps> = ({
             proxy={proxyAddress}
             getDelegates={getDelegates}
           />
-        </label>
+        </div>
       ) : null}
       {selectedAccount?.delegate ? (
         <div>
-          <h3>Permissions</h3>
+          <h3 className="font-medium text-muted-foreground">Permissions</h3>
           <ul className="flex flex-wrap gap-2">
             {selectedAccount.delegate.map((entry, i) => (
               <li key={i} className="border rounded px-2 py-1">
@@ -253,7 +266,52 @@ const ProxySignerPicker: FC<{
       .filter(({ accounts }) => accounts.length > 0);
   }, [delegatesResult, availableSigners]);
 
+  if (availableSigners.length === 0) {
+    return (
+      <AlertBox variant="error">
+        First you need to connect the real signer account
+      </AlertBox>
+    );
+  }
   if (selectableSigners == null) return <div>Loading…</div>;
+
+  if (
+    selectableSigners.length === 0 &&
+    delegatesResult.type === "result" &&
+    delegatesResult.value
+  ) {
+    const reason =
+      delegatesResult.value.length === 0
+        ? `Account doesn't seem to be a proxy.`
+        : `None of your connected signers is identified as a delegate of this proxy.`;
+
+    return (
+      <>
+        <AlertBox>
+          <p>{reason}</p>
+          <p>
+            You can still select one of your signers, but it's very likely the
+            transactions will fail.
+          </p>
+        </AlertBox>
+        <AccountPicker
+          value={value}
+          onChange={onChange}
+          groups={availableSigners}
+          className="max-w-auto"
+          disableClear
+          renderAddress={(account) => (
+            <AddressIdentity
+              addr={account.address}
+              name={account?.name}
+              maxAddrLength={maxAddrLength}
+              copyable={false}
+            />
+          )}
+        />
+      </>
+    );
+  }
 
   return (
     <AccountPicker

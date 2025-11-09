@@ -1,4 +1,5 @@
 import { AccountDisplay } from "@polkadot-api/react-components";
+import type { SS58String } from "polkadot-api";
 import {
   AddressInput,
   ManageLedger,
@@ -14,7 +15,6 @@ import {
 } from "polkahub";
 import { useMemo, useState } from "react";
 import { Card } from "./Card";
-import type { SS58String } from "polkadot-api";
 import { dotApi } from "./client";
 
 function App() {

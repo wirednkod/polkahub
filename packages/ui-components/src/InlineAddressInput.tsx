@@ -17,15 +17,14 @@ export function InlineAddressInput({
   value,
   onChange,
   renderAddress = (value) => value,
-  name = "address",
   className,
+  name = "address",
 }: {
-  name?: string;
   value?: string | null;
   onChange?: (value: string | null) => void;
-  className?: string;
-  disableClear?: boolean;
   renderAddress?: (value: string) => ReactNode;
+  className?: string;
+  name?: string;
 }) {
   const ref = useRef<HTMLInputElement | null>(null);
   const [query, setQuery] = useState(value ?? "");
