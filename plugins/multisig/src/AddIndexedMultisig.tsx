@@ -199,7 +199,7 @@ const IndexedMultisigInfo: FC<{
   if (multisigDetails.value == null)
     return (
       <AlertBox variant="error">
-        Multisig information not found. Try manual input.
+        Multisig details not found. Try manual input.
       </AlertBox>
     );
 
@@ -207,11 +207,13 @@ const IndexedMultisigInfo: FC<{
   const notice = details.proxy ? (
     <AlertBox>
       <p>
-        The value you entered wasn't found as a multisig, but rather as a proxy.
+        The address you entered was detected as a <strong>proxy</strong>, not a
+        multisig.
       </p>
       <p>
-        We will create both signers, but you will find your entered Address in
-        the "proxies" group instead of the multisigs one.
+        Both signers will be created, but your entered address will appear under
+        the <strong>Proxies</strong> group instead of <strong>Multisigs</strong>
+        .
       </p>
     </AlertBox>
   ) : null;
@@ -271,10 +273,10 @@ const IndexedMultisigInfo: FC<{
         ) : (
           <AlertBox variant="error">
             <p>
-              None of the signatories of this multisig matches any of your
+              None of the signatories in this multisig match your configured
               signers.
             </p>
-            <p>Please, first configure your signer account</p>
+            <p>Please configure a signer account first.</p>
           </AlertBox>
         )}
       </div>

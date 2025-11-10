@@ -16,26 +16,15 @@ import {
 import { AccountId } from "polkadot-api";
 import { toHex } from "polkadot-api/utils";
 import { useEffect, useMemo, useState, type FC } from "react";
-import {
-  ProxyEntry,
-  ProxyProvider,
-  proxyProviderId,
-  ProxyType,
-} from "./provider";
+import { ProxyEntry, ProxyProvider, proxyProviderId } from "./provider";
 
-const proxyTypeText: Record<ProxyType, string> = {
-  Any: "Any",
+const proxyTypeText: Record<string, string | undefined> = {
   AssetManager: "Asset Manager",
   AssetOwner: "Asset Owner",
-  Assets: "Assets",
-  Auction: "Auction",
   CancelProxy: "Cancel Proxy",
-  Collator: "Collator",
-  Governance: "Governance",
   NominationPools: "Nomination Pools",
   NonTransfer: "Non-Transfer",
   ParaRegistration: "Para Registration",
-  Staking: "Staking",
 };
 
 export type AddProxyProps = {
@@ -120,7 +109,7 @@ export const AddProxy: FC<AddProxyProps> = ({
           <ul className="flex flex-wrap gap-2">
             {selectedAccount.delegate.map((entry, i) => (
               <li key={i} className="border rounded px-2 py-1">
-                {proxyTypeText[entry.proxy_type.type as ProxyType]}
+                {proxyTypeText[entry.proxy_type.type] ?? entry.proxy_type.type}
                 {entry.delay
                   ? ` (${getDelayLength(entry.delay, blockLength)})`
                   : ""}
@@ -252,13 +241,6 @@ const ProxySignerPicker: FC<{
       .filter(({ accounts }) => accounts.length > 0);
   }, [delegatesResult, availableSigners]);
 
-  if (availableSigners.length === 0) {
-    return (
-      <AlertBox variant="error">
-        First you need to connect the real signer account
-      </AlertBox>
-    );
-  }
   if (selectableSigners == null) return <div>Loading…</div>;
 
   if (
@@ -268,35 +250,10 @@ const ProxySignerPicker: FC<{
   ) {
     const reason =
       delegatesResult.value.length === 0
-        ? `Account doesn't seem to be a proxy.`
-        : `None of your connected signers is identified as a delegate of this proxy.`;
+        ? `This account doesn't appear to be a proxy.`
+        : `None of your connected signers are recognized as delegates of this proxy. Please configure the real signer account and try again`;
 
-    return (
-      <>
-        <AlertBox>
-          <p>{reason}</p>
-          <p>
-            You can still select one of your signers, but it's very likely the
-            transactions will fail.
-          </p>
-        </AlertBox>
-        <AccountPicker
-          value={value}
-          onChange={onChange}
-          groups={availableSigners}
-          className="max-w-auto"
-          disableClear
-          renderAddress={(account) => (
-            <AddressIdentity
-              addr={account.address}
-              name={account?.name}
-              maxAddrLength={maxAddrLength}
-              copyable={false}
-            />
-          )}
-        />
-      </>
-    );
+    return <AlertBox variant="error">{reason}</AlertBox>;
   }
 
   return (

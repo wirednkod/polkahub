@@ -435,7 +435,7 @@ importers:
         specifier: ^0.1.17
         version: 0.1.17
       '@polkadot-api/substrate-bindings':
-        specifier: ^0.16.4
+        specifier: ^0.16.5
         version: 0.16.5
       '@polkahub/context':
         specifier: workspace:*

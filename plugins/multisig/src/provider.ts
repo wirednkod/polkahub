@@ -41,8 +41,8 @@ export interface MultisigInfo {
 
 export type CreateMultisigSigner = (
   info: MultisigInfo,
-  parentSigner: PolkadotSigner
-) => PolkadotSigner;
+  parentSigner?: PolkadotSigner
+) => PolkadotSigner | null;
 
 export const multisigProviderId = "multisig";
 export interface MultisigAccount extends Account {
@@ -82,7 +82,7 @@ export const createMultisigProvider = (
   ): MultisigAccount => ({
     provider: multisigProviderId,
     address: getMultisigAddress(info),
-    signer: parentSigner ? createMultisigSigner(info, parentSigner) : undefined,
+    signer: createMultisigSigner(info, parentSigner) ?? undefined,
     info,
     name: info.name,
   });
@@ -168,7 +168,7 @@ const getMultisigAddress = (info: MultisigInfo) => {
   return AccountId(addrInfo.ss58Format).dec(accountId);
 };
 
-export const directMultisigSigner =
+export const multisigDirectSigner =
   (
     getMultisigInfo: (
       multisig: AccountAddress,
@@ -195,4 +195,14 @@ export const directMultisigSigner =
     opts?: MultisigSignerOptions<AccountAddress>
   ): CreateMultisigSigner =>
   (info, parentSigner) =>
-    getMultisigSigner(info, getMultisigInfo, txPaymentInfo, parentSigner, opts);
+    parentSigner
+      ? getMultisigSigner(
+          info,
+          getMultisigInfo,
+          txPaymentInfo,
+          parentSigner,
+          opts ?? {
+            method: () => "as_multi",
+          }
+        )
+      : null;

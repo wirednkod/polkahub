@@ -20,7 +20,8 @@
   "browser": "./dist/index.js",
   "style": "./index.css",
   "files": [
-    "dist"
+    "dist",
+    "index.css"
   ],
   "scripts": {
     "build": "tsc -b && rollup -c ../../rollup.config.js",

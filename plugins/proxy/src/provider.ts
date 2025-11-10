@@ -33,24 +33,10 @@ export interface ProxyAccount extends Account {
   info: ProxyInfo;
 }
 
-export type ProxyType =
-  | "Any"
-  | "Assets"
-  | "Auction"
-  | "Collator"
-  | "Governance"
-  | "Staking"
-  | "AssetManager"
-  | "AssetOwner"
-  | "CancelProxy"
-  | "NominationPools"
-  | "NonTransfer"
-  | "ParaRegistration";
-
 export type ProxyEntry = {
   delegate: AccountAddress;
   proxy_type: {
-    type: ProxyType;
+    type: string;
   };
   delay: number;
 };
@@ -71,14 +57,13 @@ export interface ProxyProvider extends Plugin<ProxyAccount> {
 }
 
 export const createProxyProvider = (
+  getDelegates: GetDelegates,
   opts?: Partial<{
     persist: PersistenceProvider;
-    getDelegates: GetDelegates;
   }>
 ): ProxyProvider => {
-  const { persist, getDelegates } = {
+  const { persist } = {
     persist: localStorageProvider("proxies"),
-    getDelegates: async () => null,
     ...opts,
   };
 
