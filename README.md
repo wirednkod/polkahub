@@ -19,6 +19,8 @@ PolkaHub is a toolkit to integrate with multiple Polkadot Wallets, from browser 
 - 🚀 Drop-in components to onboard users fast: account selection, vault import, read-only sources, and more.
 - 🎣 Context-powered React hooks plus raw observables when you want total control.
 
+Looking for a more integrated experience? Check out [DotConnect](https://dotconnect.dev) with [ReactiveDOT](https://reactivedot.dev).
+
 ## Installation
 
 Install from npm
