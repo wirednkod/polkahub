@@ -130,7 +130,9 @@ const stringToBinary = (value: string) =>
 
 const createFrames = (payload: Uint8Array): Uint8Array[] => {
   const frames = [];
-  const frameSize = 1024;
+  const MAX_FRAME_SIZE = 1024;
+  const frameAmount = Math.ceil(payload.length / MAX_FRAME_SIZE);
+  const frameSize = Math.ceil(payload.length / frameAmount);
 
   let idx = 0;
   while (idx < payload.length) {

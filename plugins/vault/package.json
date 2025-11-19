@@ -27,6 +27,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@polkadot-api/merkleize-metadata": "^1.1.27",
     "@polkadot-api/signers-common": "^0.1.18",
     "@polkadot-api/substrate-bindings": "^0.16.5",
     "@polkahub/context": "workspace:*",
