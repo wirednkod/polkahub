@@ -1,5 +1,7 @@
 ## Unreleased
 
+## 0.4.0 2025-11-20
+
 ### Added
 
 - `@polkahub/vault`

@@ -1,6 +1,6 @@
 {
   "name": "@polkahub/ui-components",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "sideEffects": false,
   "type": "module",
@@ -49,7 +49,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "lucide-react": "^0.553.0",
+    "lucide-react": "^0.554.0",
     "react-remove-scroll": "^2.7.1",
     "tailwind-merge": "^3.4.0"
   },
@@ -58,7 +58,7 @@
     "react": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.2",
+    "@types/react": "^19.2.6",
     "react": "^19.2.0"
   }
 }
