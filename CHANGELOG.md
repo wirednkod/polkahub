@@ -1,11 +1,20 @@
 ## Unreleased
 
+### Added
+
+- `@polkahub/vault`
+  - Add support for `CheckMetadataHash`
+
+### Fixed
+
+- `@polkahub/vault`
+  - Fix `signBytes`
+
 ## 0.3.1 2025-11-10
 
 ### Fixed
 
 - Update dependencies
-- Polkadot Vault `signBytes`
 
 ## 0.3.0 2025-11-10
 

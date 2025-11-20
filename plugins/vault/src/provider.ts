@@ -23,6 +23,10 @@ import {
 } from "polkadot-api";
 import { mergeUint8 } from "polkadot-api/utils";
 import { firstValueFrom, map, merge, race } from "rxjs";
+import {
+  merkleizeMetadata,
+  MetadataMerkleizer,
+} from "@polkadot-api/merkleize-metadata";
 
 export const polkadotVaultProviderId = "polkadot-vault";
 export interface VaultAccountInfo {
@@ -48,12 +52,18 @@ export interface PolkadotVaultProvider extends Plugin<PolkadotVaultAccount> {
   cancelTx: () => void;
 }
 
+export type NetworkInfo = {
+  decimals: number;
+  tokenSymbol: string;
+};
+
 export const createPolkadotVaultProvider = (
   opts?: Partial<{
     persist: PersistenceProvider;
+    getNetworkInfo: () => Promise<NetworkInfo>;
   }>
 ): PolkadotVaultProvider => {
-  const { persist } = {
+  const { persist, getNetworkInfo } = {
     persist: localStorageProvider(polkadotVaultProviderId),
     ...opts,
   };
@@ -106,29 +116,57 @@ export const createPolkadotVaultProvider = (
         return signature;
       },
       async signTx(callData, signedExtensions, metadata) {
+        let merkleizer: MetadataMerkleizer | null = null;
         const decMeta = unifyMetadata(decAnyMetadata(metadata));
         const extra: Array<Uint8Array> = [];
         const additionalSigned: Array<Uint8Array> = [];
-        decMeta.extrinsic.signedExtensions.map(({ identifier }) => {
+        for (const { identifier } of decMeta.extrinsic.signedExtensions) {
+          if (identifier === "CheckMetadataHash") {
+            if (getNetworkInfo) {
+              merkleizer = merkleizeMetadata(metadata, await getNetworkInfo());
+              extra.push(Uint8Array.from([1]));
+              additionalSigned.push(
+                mergeUint8([Uint8Array.from([1]), merkleizer.digest()])
+              );
+              continue;
+            } else {
+              console.warn(
+                "The chain supports `CheckMetadataHash`, but `getNetworkInfo` was not provided. Polkadot Vault will need the whole metadata downloaded beforehand."
+              );
+            }
+          }
           const signedExtension = signedExtensions[identifier];
           if (!signedExtension)
             throw new Error(`Missing ${identifier} signed extension`);
           extra.push(signedExtension.value);
           additionalSigned.push(signedExtension.additionalSigned);
-        });
+        }
         const extensions = mergeUint8([...extra, ...additionalSigned]);
 
         const genesis =
           signedExtensions.CheckGenesis?.additionalSigned ??
           Binary.fromHex(accountGenesis).asBytes();
 
-        const qrPayload = createQrTransaction(
-          VaultQrEncryption.Sr25519,
-          publicKey,
-          callData,
-          extensions,
-          genesis
-        );
+        const qrPayload = merkleizer
+          ? createQrProofedTransaction(
+              VaultQrEncryption.Sr25519,
+              publicKey,
+              merkleizer.getProofForExtrinsicParts(
+                callData,
+                mergeUint8(extra),
+                mergeUint8(additionalSigned)
+              ),
+              callData,
+              extensions,
+              genesis
+            )
+          : createQrTransaction(
+              VaultQrEncryption.Sr25519,
+              publicKey,
+              callData,
+              extensions,
+              genesis
+            );
         setTx(qrPayload);
 
         const signature = await firstValueFrom(currentScannedSignature$);
@@ -228,6 +266,7 @@ enum VaultQrPayloadType {
   Tx = 0x02,
   Message = 0x03,
   BulkTx = 0x04,
+  ProofTx = 0x06,
   LoadMetadataUpdate = 0x80,
   LoadTypesUpdate = 0x81,
   AddSpecsUpdate = 0xc1,
@@ -235,7 +274,7 @@ enum VaultQrPayloadType {
 }
 
 const createQrTransaction = (
-  encrpytion: VaultQrEncryption,
+  encryption: VaultQrEncryption,
   publicKey: Uint8Array,
   callData: Uint8Array,
   extensions: Uint8Array,
@@ -243,9 +282,29 @@ const createQrTransaction = (
 ) =>
   mergeUint8([
     VAULT_QR_HEADER,
-    new Uint8Array([encrpytion]),
+    new Uint8Array([encryption]),
     new Uint8Array([VaultQrPayloadType.Tx]),
     publicKey,
+    compact.enc(callData.length),
+    callData,
+    extensions,
+    genesisHash,
+  ]);
+
+const createQrProofedTransaction = (
+  encryption: VaultQrEncryption,
+  publicKey: Uint8Array,
+  metadataProof: Uint8Array,
+  callData: Uint8Array,
+  extensions: Uint8Array,
+  genesisHash: Uint8Array
+) =>
+  mergeUint8([
+    VAULT_QR_HEADER,
+    new Uint8Array([encryption]),
+    new Uint8Array([VaultQrPayloadType.ProofTx]),
+    publicKey,
+    metadataProof,
     compact.enc(callData.length),
     callData,
     extensions,
