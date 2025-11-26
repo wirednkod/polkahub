@@ -35,7 +35,7 @@ export const openSelectAccount = () => setOpen(true);
 const open$ = state(openChange$, false);
 const close = () => setOpen(false);
 
-export type PolkaHubModalType = {
+export type PolkaHubModalClassnames = {
   button?: string
   modalContent?: string
   modalHeader?: string
@@ -44,7 +44,7 @@ export type PolkaHubModalType = {
 
 export const PolkaHubModal: FC<
   PropsWithChildren<{
-    className?: PolkaHubModalType;
+    className?: PolkaHubModalClassnames;
     buttonProps?: ComponentProps<typeof SelectedAccountButton>;
     title?: string;
   }>
